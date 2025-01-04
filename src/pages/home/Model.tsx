@@ -1,5 +1,5 @@
 import { useRef } from "react";
-import { OrbitControls, useAnimations, useGLTF } from "@react-three/drei";
+import { useAnimations, useGLTF } from "@react-three/drei";
 import { Canvas, useFrame } from "@react-three/fiber";
 import { GLTF } from "three-stdlib";
 import * as THREE from "three";
@@ -83,6 +83,7 @@ export function Model(props: JSX.IntrinsicElements["group"]) {
     "/beer-model/beer-model-1-compressed.gltf"
   ) as GLTFResult;
   const { actions } = useAnimations(animations, group);
+  console.log(actions);
 
   const scrollRotate = useRef({ x: 0, y: 0, z: 0 });
 
