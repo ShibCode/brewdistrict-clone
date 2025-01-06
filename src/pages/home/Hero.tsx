@@ -1,7 +1,6 @@
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { useRef } from "react";
-import CircularNav from "../../components/CircularText";
 
 const Hero = () => {
   const wrapper = useRef<HTMLDivElement>(null);
