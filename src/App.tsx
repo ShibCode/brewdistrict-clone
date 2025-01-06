@@ -21,7 +21,11 @@ const App = () => {
   }, []);
 
   return (
-    <ReactLenis root options={{ autoRaf: false }} ref={lenisRef}>
+    <ReactLenis
+      root
+      options={{ autoRaf: true, lerp: 0.09, wheelMultiplier: 1.5 }}
+      ref={lenisRef}
+    >
       <Header />
 
       <main>

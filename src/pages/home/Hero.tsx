@@ -1,6 +1,7 @@
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { useRef } from "react";
+import CircularNav from "../../components/CircularText";
 
 const Hero = () => {
   const wrapper = useRef<HTMLDivElement>(null);
@@ -85,6 +86,13 @@ const Hero = () => {
       >
         Pure, honest and damn delicious
       </p>
+
+      <div className="absolute size-[7.6vw] left-0 top-[50vh] z-50">
+        {/* <CircularNav
+          text="PURE & HONEST • PURE & HONEST • PURE & HONEST •"
+          gap={1}
+        /> */}
+      </div>
     </section>
   );
 };

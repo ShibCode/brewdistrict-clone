@@ -21,7 +21,7 @@ const Beers = () => {
 
     gsap.fromTo(
       beerContainer.current,
-      { y: "-30vh" },
+      { y: "-32.5vh" },
       {
         y: 0,
         ease: "none",

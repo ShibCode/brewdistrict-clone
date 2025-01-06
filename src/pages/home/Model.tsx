@@ -32,47 +32,31 @@ type GLTFResult = GLTF & {
 };
 
 const ModelWrapper = () => {
-  const wrapper = useRef<HTMLDivElement>(null);
-
   const { color } = useControls({
     color: "#ffe6e7",
   });
 
-  useGSAP(
-    () => {
-      gsap.to(wrapper.current, {
-        scrollTrigger: {
-          trigger: "#hero-section",
-          start: "top top",
-          endTrigger: "#beers-section",
-          end: "bottom bottom",
-          scrub: true,
-          pin: wrapper.current,
-        },
-      });
-    },
-    { dependencies: [], revertOnUpdate: true }
-  );
-
   return (
-    <div ref={wrapper} className="absolute w-full h-screen z-10 isolate">
-      <Canvas
-        gl={{ toneMapping: THREE.ACESFilmicToneMapping }}
-        className="!absolute w-full !h-[100vw] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
-      >
-        <directionalLight
-          position={[4, -0.5, 0.5]}
-          intensity={4}
-          color={color}
-        />
-        <directionalLight
-          position={[-3, -0.5, 1]}
-          intensity={4}
-          color={color}
-        />
-        <ambientLight intensity={0.5} color={"white"} />
-        <Model />
-      </Canvas>
+    <div className="h-[200vh] absolute w-full left-0 top-0">
+      <div className="sticky top-0 w-full h-screen z-10 isolate">
+        <Canvas
+          gl={{ toneMapping: THREE.ACESFilmicToneMapping }}
+          className="!absolute w-full !h-[100vw] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
+        >
+          <directionalLight
+            position={[4, -0.5, 0.5]}
+            intensity={4}
+            color={color}
+          />
+          <directionalLight
+            position={[-3, -0.5, 1]}
+            intensity={4}
+            color={color}
+          />
+          <ambientLight intensity={0.5} color={"white"} />
+          <Model />
+        </Canvas>
+      </div>
     </div>
   );
 };
@@ -91,7 +75,7 @@ export function Model(props: JSX.IntrinsicElements["group"]) {
     () => {
       if (!group.current) return;
 
-      const scrollTrigger = {
+      const scrollTrigger: ScrollTrigger.Vars = {
         trigger: "#hero-section",
         start: "top top",
         endTrigger: "#beers-section",
@@ -115,7 +99,7 @@ export function Model(props: JSX.IntrinsicElements["group"]) {
 
     if (group.current) {
       group.current.position.x = -0.05;
-      group.current.position.y = -0.3 + Math.sin(0.5 * time) * 0.1;
+      group.current.position.y = -0.225 + Math.sin(0.5 * time) * 0.1;
 
       group.current.rotation.set(
         scrollRotate.current.x -
