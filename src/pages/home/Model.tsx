@@ -1,11 +1,12 @@
 import { useRef } from "react";
-import { useAnimations, useGLTF } from "@react-three/drei";
+import { useGLTF } from "@react-three/drei";
 import { Canvas, useFrame } from "@react-three/fiber";
 import { GLTF } from "three-stdlib";
 import * as THREE from "three";
 import { useControls } from "leva";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
+import { ScrollTrigger } from "gsap/all";
 
 type ActionName = "animation_0";
 
@@ -37,45 +38,34 @@ const ModelWrapper = () => {
   });
 
   return (
-    <div className="h-[200vh] absolute w-full left-0 top-0">
-      <div className="sticky top-0 w-full h-screen z-10 isolate">
-        <Canvas
-          gl={{ toneMapping: THREE.ACESFilmicToneMapping }}
-          className="!absolute w-full !h-[100vw] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
-        >
-          <directionalLight
-            position={[4, -0.5, 0.5]}
-            intensity={4}
-            color={color}
-          />
-          <directionalLight
-            position={[-3, -0.5, 1]}
-            intensity={4}
-            color={color}
-          />
-          <ambientLight intensity={0.5} color={"white"} />
-          <Model />
-        </Canvas>
-      </div>
-    </div>
+    <Canvas
+      gl={{ toneMapping: THREE.ACESFilmicToneMapping }}
+      className="!absolute !h-[100vw]"
+    >
+      <directionalLight position={[4, -0.5, 0.5]} intensity={4} color={color} />
+      <directionalLight position={[-3, -0.5, 1]} intensity={4} color={color} />
+      <ambientLight intensity={0.5} color={"white"} />
+      <Model />
+    </Canvas>
   );
 };
 
 export function Model(props: JSX.IntrinsicElements["group"]) {
   const group = useRef<THREE.Group | null>(null);
-  const { nodes, materials, animations } = useGLTF(
+  const { nodes, materials } = useGLTF(
     "/beer-model/beer-model-1-compressed.gltf"
   ) as GLTFResult;
-  const { actions } = useAnimations(animations, group);
-  console.log(actions);
 
-  const scrollRotate = useRef({ x: 0, y: 0, z: 0 });
+  const phase1Rotation = useRef({ x: 0, y: 0, z: 0 });
+  const transitionRotation = useRef({ x: 0, y: 0, z: 0 });
+  const phase2Rotation = useRef({ x: 0, y: 0, z: 0 });
 
   useGSAP(
     () => {
       if (!group.current) return;
 
-      const scrollTrigger: ScrollTrigger.Vars = {
+      // phase 1 rotation
+      const phase1Trigger: ScrollTrigger.Vars = {
         trigger: "#hero-section",
         start: "top top",
         endTrigger: "#beers-section",
@@ -84,12 +74,51 @@ export function Model(props: JSX.IntrinsicElements["group"]) {
       };
 
       gsap
-        .timeline({ defaults: { ease: "none" }, scrollTrigger })
-        .to(scrollRotate.current, {
-          x: Math.PI * 2,
-          y: Math.PI * 2,
-        })
+        .timeline({ defaults: { ease: "none" }, scrollTrigger: phase1Trigger })
+        .to(phase1Rotation.current, { x: Math.PI * 2, y: Math.PI * 2 })
         .to(group.current.scale, { x: 0.155, y: 0.155, z: 0.155 }, 0);
+
+      // transition rotation (from phase 1 to phase 2)
+      new ScrollTrigger({
+        trigger: "#about-section",
+        start: "top 25%",
+        toggleActions: "play none none reverse",
+        onEnter: () => {
+          gsap.to(transitionRotation.current, {
+            y: Math.PI * 2,
+            duration: 1,
+            ease: "power3.out",
+          });
+        },
+        onLeaveBack: () => {
+          gsap.to(transitionRotation.current, {
+            y: Math.PI * 0,
+            duration: 1,
+            ease: "power3.out",
+          });
+        },
+      });
+
+      // phase 2 rotation
+      const phase2BaseTrigger: ScrollTrigger.Vars = {
+        trigger: "#about-section",
+        endTrigger: "#canvas2-scrollarea",
+        end: "bottom bottom",
+        scrub: true,
+      };
+
+      gsap.to(phase2Rotation.current, {
+        y: 5.2,
+        z: 1.24,
+        ease: "none",
+        scrollTrigger: { ...phase2BaseTrigger, start: "top 25%" },
+      });
+
+      gsap.to(phase2Rotation.current, {
+        x: -0.83,
+        ease: "none",
+        scrollTrigger: { ...phase2BaseTrigger, start: "bottom 30%" },
+      });
     },
     { dependencies: [], revertOnUpdate: true }
   );
@@ -102,11 +131,18 @@ export function Model(props: JSX.IntrinsicElements["group"]) {
       group.current.position.y = -0.225 + Math.sin(0.5 * time) * 0.1;
 
       group.current.rotation.set(
-        scrollRotate.current.x -
+        phase1Rotation.current.x +
+          transitionRotation.current.x +
+          phase2Rotation.current.x -
           0.35 +
           Math.max(-0.025, Math.sin(time * 0.2 + 0.5) * 0.15),
-        scrollRotate.current.y + 0.85,
-        scrollRotate.current.z -
+        phase1Rotation.current.y +
+          transitionRotation.current.y +
+          phase2Rotation.current.y +
+          0.85,
+        phase1Rotation.current.z +
+          transitionRotation.current.z +
+          phase2Rotation.current.z -
           0.72 +
           Math.max(-0.075, Math.sin(time * 0.2 + 0.5) * 0.2)
       );

@@ -7,13 +7,47 @@ import gsap from "gsap";
 import { useRef } from "react";
 import Newsletter from "./Newsletter";
 import ImageSequence from "./ImageSequence";
+import { ScrollTrigger } from "gsap/all";
 
 const Home = () => {
   const block1 = useRef<HTMLDivElement>(null);
   const block2 = useRef<HTMLDivElement>(null);
+  const canvas1 = useRef<HTMLDivElement>(null);
+  const canvas2 = useRef<HTMLDivElement>(null);
 
   useGSAP(
     () => {
+      gsap.set(canvas2.current, { y: -window.innerHeight });
+
+      new ScrollTrigger({
+        trigger: "#about-section",
+        start: "top 25%",
+        onEnter: () => {
+          gsap.to(canvas1.current, {
+            y: window.innerHeight,
+            duration: 1,
+            ease: "power3.out",
+          });
+          gsap.to(canvas2.current, {
+            y: 0,
+            duration: 1,
+            ease: "power3.out",
+          });
+        },
+        onLeaveBack: () => {
+          gsap.to(canvas1.current, {
+            y: 0,
+            duration: 1,
+            ease: "power3.out",
+          });
+          gsap.to(canvas2.current, {
+            y: -window.innerHeight,
+            duration: 1,
+            ease: "power3.out",
+          });
+        },
+      });
+
       setTimeout(() => {
         gsap.to(block1.current, {
           y: () => `${window.innerHeight * 0.4}`,
@@ -43,28 +77,60 @@ const Home = () => {
 
   return (
     <>
-      <div
-        ref={block1}
-        id="block1"
-        style={{ backgroundColor: "rgb(174, 102, 103)" }}
-        className="relative isolate pb-[15vh]"
-      >
+      <div className="overflow-y-clip relative">
         <div
-          style={{ backgroundImage: "url(/noise.png" }}
-          className="absolute inset-0 opacity-20 -z-10"
-        />
+          ref={block1}
+          id="block1"
+          style={{ backgroundColor: "rgb(174, 102, 103)" }}
+          className="relative pb-[15vh] overflow-y-clip"
+        >
+          <div
+            style={{ backgroundImage: "url(/noise.png" }}
+            className="absolute inset-0 opacity-20 -z-10"
+          />
 
-        <Model />
+          <div className="h-[200vh] absolute w-full left-0 top-0">
+            <div
+              ref={canvas1}
+              className="sticky top-0 w-full h-screen z-10 flex justify-center items-center"
+            >
+              <Model />
+            </div>
+          </div>
 
-        <Hero />
-        <Beers />
+          <Hero />
+          <Beers />
+        </div>
+
+        <div
+          style={{ clipPath: "polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)" }}
+        >
+          <div
+            id="canvas2-scrollarea"
+            className="absolute w-full h-full left-0 top-0"
+          >
+            <div
+              ref={canvas2}
+              className="sticky top-0 w-full h-screen z-10 flex justify-center items-center blur-[20px] opacity-60"
+            >
+              <Model />
+            </div>
+          </div>
+
+          <div className="bg-primary overflow-hidden">
+            <div ref={block2} id="block2" className="relative z-10">
+              <About />
+            </div>
+          </div>
+
+          <div className="bg-secondary">
+            <div className="relative z-10">
+              <Newsletter />
+            </div>
+          </div>
+        </div>
       </div>
 
-      <div ref={block2} className="relative">
-        <About />
-      </div>
-
-      <Newsletter />
       <ImageSequence />
     </>
   );

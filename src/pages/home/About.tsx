@@ -34,7 +34,8 @@ const About = () => {
   return (
     <div
       ref={wrapper}
-      className="bg-primary text-secondary flex flex-col gap-[0.25vw] items-center pt-[19vw] pb-[15vw]"
+      id="about-section"
+      className="text-secondary flex flex-col gap-[0.25vw] items-center pt-[19vw] pb-[15vw]"
     >
       <h2 className="content-parallax-element text-[1.125vw] leading-[1.125vw]">
         ABOUT BREWDISTRICT24

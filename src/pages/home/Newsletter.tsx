@@ -36,7 +36,8 @@ const Newsletter = () => {
   return (
     <section
       ref={wrapper}
-      className="relative bg-secondary pt-[16vw] pb-[13vw] flex justify-center"
+      id="newsletter-section"
+      className="pt-[16vw] pb-[13vw] flex justify-center"
     >
       <div ref={content} className="flex w-full">
         <div className="flex justify-end w-full pr-[4.5vw]">
