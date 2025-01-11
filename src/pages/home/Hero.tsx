@@ -1,6 +1,8 @@
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { useRef } from "react";
+import LineStaggerIn from "../../components/animations/LineStaggerIn";
+import HorizontalScaleOut from "../../components/animations/HorizontalScaleOut";
 
 const Hero = () => {
   const wrapper = useRef<HTMLDivElement>(null);
@@ -30,16 +32,6 @@ const Hero = () => {
     { dependencies: [], revertOnUpdate: true }
   );
 
-  const split = (text: string) => {
-    return text.split("").map((char, index) => {
-      return (
-        <span key={index} className="inline-block">
-          {char === " " ? "\u00A0" : char}
-        </span>
-      );
-    });
-  };
-
   return (
     <section
       id="hero-section"
@@ -50,40 +42,49 @@ const Hero = () => {
         ref={heading}
         className="uppercase text-[9.5625vw] leading-[8.125vw] max-w-[75vw]"
       >
-        <span className="inline-block line">
-          {split("Classic craft beers,")}
-        </span>
-        <span className="inline-block line">{split("brewed without")}</span>
-        <span className="inline-block line">{split("fuss")}</span>
+        <LineStaggerIn className="line">Classic craft beers,</LineStaggerIn>
+        <LineStaggerIn className="line">brewed without</LineStaggerIn>
+        <LineStaggerIn className="line">fuss</LineStaggerIn>
       </h1>
 
-      <div ref={line} className="h-px w-full flex justify-center">
-        <svg width="600" height="2" xmlns="http://www.w3.org/2000/svg">
-          <line
-            x1="0"
-            y1="0"
-            x2="600"
-            y2="0"
-            stroke="#fff"
-            strokeWidth="1"
-            strokeDasharray="3,3"
+      <HorizontalScaleOut
+        config={{ delay: 0.75, duration: 1, ease: "power2.out" }}
+        className="w-full h-px max-w-[600px]"
+      >
+        <div ref={line}>
+          <svg
+            viewBox="0 0 800 1"
+            className="w-full"
+            preserveAspectRatio="none"
           >
-            <animate
-              attributeName="stroke-dashoffset"
-              from={0}
-              to={100}
-              dur={10}
-              repeatCount="indefinite"
-            />
-          </line>
-        </svg>
-      </div>
+            <line
+              x1="0"
+              y1="50%"
+              x2="100%"
+              y2="50%"
+              strokeWidth="1"
+              stroke="currentColor"
+              strokeDasharray="3,3"
+            >
+              <animate
+                attributeName="stroke-dashoffset"
+                from={0}
+                to={100}
+                dur={15}
+                repeatCount="indefinite"
+              />
+            </line>
+          </svg>
+        </div>
+      </HorizontalScaleOut>
 
       <p
         ref={para}
         className="uppercase text-[2.6875vw] leading-[3.125vw] z-10"
       >
-        Pure, honest and damn delicious
+        <LineStaggerIn config={{ stagger: 0.02 }}>
+          Pure, honest and damn delicious
+        </LineStaggerIn>
       </p>
 
       <div className="absolute size-[7.6vw] left-0 top-[50vh] z-50">

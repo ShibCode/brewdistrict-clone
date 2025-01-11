@@ -82,7 +82,7 @@ const Home = () => {
           ref={block1}
           id="block1"
           style={{ backgroundColor: "rgb(174, 102, 103)" }}
-          className="relative pb-[15vh] overflow-y-clip"
+          className="isolate relative pb-[15vh] overflow-y-clip"
         >
           <div
             style={{ backgroundImage: "url(/noise.png" }}

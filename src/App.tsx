@@ -1,11 +1,14 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Header from "./layout/Header";
 import Home from "./pages/home";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/all";
 import Lenis from "lenis";
+import Loading from "./components/Loading";
 
 const App = () => {
+  const [isStarted, setIsStarted] = useState(false);
+
   gsap.registerPlugin(ScrollTrigger);
 
   useEffect(() => {
@@ -20,13 +23,21 @@ const App = () => {
     gsap.ticker.lagSmoothing(0);
   }, []);
 
+  const start = () => {
+    setIsStarted(true);
+  };
+
   return (
     <>
       <Header />
 
-      <main>
-        <Home />
-      </main>
+      {isStarted ? (
+        <main>
+          <Home />
+        </main>
+      ) : (
+        <Loading start={start} />
+      )}
     </>
   );
 };
