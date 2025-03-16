@@ -71,12 +71,6 @@ export function Model(props: JSX.IntrinsicElements["group"]) {
   const modelChangeRotation = useRef(0);
   const modelChangePositionY = useRef(0);
 
-  const leva = useControls({
-    x: { min: 0, max: Math.PI * 2, step: Math.PI * 0.01, value: 0 },
-    y: { min: 0, max: Math.PI * 2, step: Math.PI * 0.01, value: 0 },
-    z: { min: 0, max: Math.PI * 2, step: Math.PI * 0.01, value: 0 },
-  });
-
   useStageEffect(
     () => {
       gsap.to([materials[activeModel], materials["Mat.1"]], {
@@ -144,7 +138,7 @@ export function Model(props: JSX.IntrinsicElements["group"]) {
 
       gsap
         .timeline({ defaults: { ease: "none" }, scrollTrigger: phase1Trigger })
-        .to(phase1Rotation.current, { x: Math.PI * 2, y: Math.PI * 2 })
+        .to(phase1Rotation.current, { x: Math.PI * 2, z: Math.PI * 2 })
         .to(group.current.scale, { x: 0.155, y: 0.155, z: 0.155 }, 0);
 
       // transition rotation (from phase 1 to phase 2)
@@ -208,22 +202,20 @@ export function Model(props: JSX.IntrinsicElements["group"]) {
       phase1Rotation.current.x +
       transitionRotation.current.x +
       phase2Rotation.current.x +
-      Math.max(-0.125, Math.sin(time * 0.2 + 0.5) * 0.2) +
-      leva.x;
+      Math.max(-0.125, Math.sin(time * 0.2 + 0.5) * 0.2);
 
     group.current.rotation.y =
+      phase1Rotation.current.y +
       transitionRotation.current.y +
       phase2Rotation.current.y +
-      Math.sin(time * 0.5 + 0.5) * 0.1 +
-      leva.y;
+      Math.sin(time * 0.5 + 0.5) * 0.1;
 
     group.current.rotation.z =
       -0.6 +
       phase1Rotation.current.z +
       transitionRotation.current.z +
       phase2Rotation.current.z -
-      modelChangeRotation.current +
-      leva.z;
+      modelChangeRotation.current;
   });
 
   return (
