@@ -18,7 +18,27 @@
 }
 
 @layer base {
+  :root {
+    --model-color: #7ecf86;
+  }
+
   body {
-    @apply bg-[#1D1D1D] text-primary overflow-y-scroll;
+    @apply bg-[#1D1D1D] text-primary overflow-y-scroll overflow-x-clip;
+  }
+}
+
+.translate-anim {
+  animation: translateAnim 4s ease-in-out infinite;
+}
+
+@keyframes translateAnim {
+  0% {
+    translate: 0% 0%;
+  }
+  20% {
+    translate: 500% 0%;
+  }
+  100% {
+    translate: 500% 0%;
   }
 }

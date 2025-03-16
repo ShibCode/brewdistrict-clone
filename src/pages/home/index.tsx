@@ -8,6 +8,7 @@ import { useRef } from "react";
 import Newsletter from "./Newsletter";
 import ImageSequence from "./ImageSequence";
 import { ScrollTrigger } from "gsap/all";
+import Background from "./Background";
 
 const Home = () => {
   const block1 = useRef<HTMLDivElement>(null);
@@ -81,13 +82,9 @@ const Home = () => {
         <div
           ref={block1}
           id="block1"
-          style={{ backgroundColor: "rgb(174, 102, 103)" }}
           className="isolate relative pb-[15vh] overflow-y-clip"
         >
-          <div
-            style={{ backgroundImage: "url(/noise.png" }}
-            className="absolute inset-0 opacity-20 -z-10"
-          />
+          <Background />
 
           <div className="h-[200vh] absolute w-full left-0 top-0">
             <div
@@ -102,11 +99,10 @@ const Home = () => {
           <Beers />
         </div>
 
-        <div
-          style={{ clipPath: "polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)" }}
-        >
+        <div style={{ clipPath: "polygon(0 0, 0% 100%, 100% 100%, 100% 0%)" }}>
           <div
             id="canvas2-scrollarea"
+            style={{ clipPath: "polygon(0 0, 0% 100%, 100% 100%, 100% 0%)" }}
             className="absolute w-full h-full left-0 top-0"
           >
             <div

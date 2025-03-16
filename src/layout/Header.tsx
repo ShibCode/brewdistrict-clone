@@ -78,7 +78,7 @@ const Header = () => {
       <div className="flex justify-end gap-10 items-center w-[41vw] h-full">
         <ClickTheCan className="fill-white w-[3.33vw]" />
 
-        <button className="bg-[#7ECF86] text-black font-freudian text-[0.859vw] h-[2.64vw] px-[1.59vw] rounded-full hover:bg-white transition-all duration-300">
+        <button className="bg-model text-black font-freudian text-[0.859vw] h-[2.64vw] px-[1.59vw] rounded-full hover:bg-white transition-all duration-300">
           ORDER NOW
         </button>
 

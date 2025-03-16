@@ -7,6 +7,12 @@ import { useControls } from "leva";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/all";
+import {
+  models,
+  modelTransitionConfig,
+  useModel,
+} from "../../context/ModelProvider";
+import useStageEffect from "../../hooks/useStageEffect";
 
 type ActionName = "animation_0";
 
@@ -33,9 +39,7 @@ type GLTFResult = GLTF & {
 };
 
 const ModelWrapper = () => {
-  const { color } = useControls({
-    color: "#ffe6e7",
-  });
+  const { color } = useControls({ color: "#ffe6e7" });
 
   return (
     <Canvas
@@ -51,6 +55,8 @@ const ModelWrapper = () => {
 };
 
 export function Model(props: JSX.IntrinsicElements["group"]) {
+  const { activeModel, inactiveModels } = useModel();
+
   const group = useRef<THREE.Group | null>(null);
   const { nodes, materials } = useGLTF(
     "/beer-model/beer-model-1-compressed.gltf"
@@ -59,6 +65,50 @@ export function Model(props: JSX.IntrinsicElements["group"]) {
   const phase1Rotation = useRef({ x: 0, y: 0, z: 0 });
   const transitionRotation = useRef({ x: 0, y: 0, z: 0 });
   const phase2Rotation = useRef({ x: 0, y: 0, z: 0 });
+  const modelChangeRotation = useRef({ x: 0, y: 0, z: 0 });
+
+  useStageEffect(
+    () => {
+      const inactiveMaterials = inactiveModels.map((model) => materials[model]);
+      inactiveMaterials.forEach((material) => (material.opacity = 0));
+    },
+    () => {
+      const inactiveMaterials = inactiveModels.map((model) => materials[model]);
+
+      const rotationTl = gsap.timeline();
+
+      rotationTl.fromTo(
+        modelChangeRotation.current,
+        { x: 0 },
+        {
+          x: Math.PI * 0.125,
+          ...modelTransitionConfig,
+          duration: Number(modelTransitionConfig.duration) * 0.5,
+        }
+      );
+      rotationTl.to(modelChangeRotation.current, {
+        x: 0,
+        ...modelTransitionConfig,
+        duration: Number(modelTransitionConfig.duration) * 0.5,
+      });
+
+      rotationTl.fromTo(
+        modelChangeRotation.current,
+        { y: Math.PI * 0 },
+        { y: Math.PI * 4, ...modelTransitionConfig },
+        0
+      );
+
+      gsap.to(materials[activeModel], {
+        opacity: 1,
+        ...modelTransitionConfig,
+        onComplete: () => {
+          gsap.set(inactiveMaterials, { opacity: 0 });
+        },
+      });
+    },
+    [activeModel]
+  );
 
   useGSAP(
     () => {
@@ -128,19 +178,25 @@ export function Model(props: JSX.IntrinsicElements["group"]) {
 
     if (group.current) {
       group.current.position.x = -0.05;
-      group.current.position.y = -0.225 + Math.sin(0.5 * time) * 0.1;
+      group.current.position.y =
+        -0.225 +
+        Math.sin(0.5 * time) * 0.1 +
+        modelChangeRotation.current.x * 0.5;
 
       group.current.rotation.set(
-        phase1Rotation.current.x +
+        modelChangeRotation.current.x +
+          phase1Rotation.current.x +
           transitionRotation.current.x +
           phase2Rotation.current.x -
           0.35 +
           Math.max(-0.025, Math.sin(time * 0.2 + 0.5) * 0.15),
-        phase1Rotation.current.y +
+        modelChangeRotation.current.y +
+          phase1Rotation.current.y +
           transitionRotation.current.y +
           phase2Rotation.current.y +
           0.85,
-        phase1Rotation.current.z +
+        modelChangeRotation.current.z +
+          phase1Rotation.current.z +
           transitionRotation.current.z +
           phase2Rotation.current.z -
           0.72 +
@@ -164,34 +220,19 @@ export function Model(props: JSX.IntrinsicElements["group"]) {
             position={[0.013, 0.027, 0.021]}
             rotation={[1.568, 0, 0]}
           />
-          <mesh
-            name="Stout"
-            geometry={nodes.Stout.geometry}
-            material={materials.Stout}
-            position={[0.013, 0.027, 0.021]}
-            rotation={[1.568, 0, 0]}
-          />
-          {/* <mesh
-            name="Ipa"
-            geometry={nodes.Ipa.geometry}
-            material={materials.Ipa}
-            position={[0.013, 0.027, 0.021]}
-            rotation={[1.568, 0, 0]}
-          />
-          <mesh
-            name="Blond"
-            geometry={nodes.Blond.geometry}
-            material={materials.Blond}
-            position={[0.013, 0.027, 0.021]}
-            rotation={[1.568, 0, 0]}
-          /> 
-          <mesh
-            name="Neipa"
-            geometry={nodes.Neipa.geometry}
-            material={materials.Neipa}
-            position={[0.013, 0.027, 0.021]}
-            rotation={[1.568, 0, 0]}
-          />*/}
+
+          {models.map((model) => (
+            <mesh
+              key={model}
+              name={model}
+              renderOrder={model === activeModel ? 1 : 0}
+              geometry={nodes[model].geometry}
+              material={materials[model]}
+              position={[0.013, 0.027, 0.021]}
+              rotation={[1.568, 0, 0]}
+              material-transparent
+            />
+          ))}
         </group>
       </group>
     </group>

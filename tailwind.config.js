@@ -12,6 +12,7 @@ export default {
       colors: {
         primary: "#f8f7e5",
         secondary: "#1d1d1d",
+        model: "var(--model-color)",
       },
     },
   },

@@ -5,6 +5,8 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/all";
 import Lenis from "lenis";
 import Loading from "./components/Loading";
+import Footer from "./layout/Footer";
+import ModelSwitcher from "./layout/ModelSwitcher";
 
 const App = () => {
   const [isStarted, setIsStarted] = useState(false);
@@ -30,6 +32,7 @@ const App = () => {
   return (
     <>
       <Header />
+      <ModelSwitcher />
 
       {isStarted ? (
         <main>
@@ -38,6 +41,8 @@ const App = () => {
       ) : (
         <Loading start={start} />
       )}
+
+      <Footer />
     </>
   );
 };
