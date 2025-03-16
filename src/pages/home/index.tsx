@@ -82,11 +82,11 @@ const Home = () => {
         <div
           ref={block1}
           id="block1"
-          className="isolate relative pb-[15vh] overflow-y-clip"
+          className="isolate relative pb-[20vh] overflow-y-clip"
         >
           <Background />
 
-          <div className="h-[200vh] absolute w-full left-0 top-0">
+          <div className="h-[200vh] absolute w-full left-0 top-0 pointer-events-none">
             <div
               ref={canvas1}
               className="sticky top-0 w-full h-screen z-10 flex justify-center items-center"

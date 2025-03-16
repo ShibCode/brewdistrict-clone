@@ -2,6 +2,7 @@ import { useRef } from "react";
 import { modelColors, useModel } from "../../context/ModelProvider";
 import useStageEffect from "../../hooks/useStageEffect";
 import gsap from "gsap";
+import { useSpring } from "@react-spring/three";
 
 const Background = () => {
   const { activeModel } = useModel();

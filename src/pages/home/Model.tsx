@@ -44,7 +44,7 @@ const ModelWrapper = () => {
   return (
     <Canvas
       gl={{ toneMapping: THREE.ACESFilmicToneMapping }}
-      className="!absolute !h-[100vw]"
+      className="!absolute !h-[100vw] !pointer-events-none"
     >
       <directionalLight position={[4, -0.5, 0.5]} intensity={4} color={color} />
       <directionalLight position={[-3, -0.5, 1]} intensity={4} color={color} />
@@ -62,42 +62,61 @@ export function Model(props: JSX.IntrinsicElements["group"]) {
     "/beer-model/beer-model-1-compressed.gltf"
   ) as GLTFResult;
 
+  const initialPosition = useRef({ x: 0, y: 1, z: 0 });
+
   const phase1Rotation = useRef({ x: 0, y: 0, z: 0 });
   const transitionRotation = useRef({ x: 0, y: 0, z: 0 });
   const phase2Rotation = useRef({ x: 0, y: 0, z: 0 });
-  const modelChangeRotation = useRef({ x: 0, y: 0, z: 0 });
+
+  const modelChangeRotation = useRef(0);
+  const modelChangePositionY = useRef(0);
+
+  const leva = useControls({
+    x: { min: 0, max: Math.PI * 2, step: Math.PI * 0.01, value: 0 },
+    y: { min: 0, max: Math.PI * 2, step: Math.PI * 0.01, value: 0 },
+    z: { min: 0, max: Math.PI * 2, step: Math.PI * 0.01, value: 0 },
+  });
 
   useStageEffect(
     () => {
-      const inactiveMaterials = inactiveModels.map((model) => materials[model]);
-      inactiveMaterials.forEach((material) => (material.opacity = 0));
+      gsap.to([materials[activeModel], materials["Mat.1"]], {
+        opacity: 1,
+        delay: 0.75,
+        duration: 0.75,
+        ease: "sine.out",
+      });
+
+      gsap.fromTo(
+        modelChangeRotation,
+        { current: Math.PI * 0 },
+        { current: Math.PI * 2, duration: 0.75, delay: 0.75, ease: "sine.out" }
+      );
+
+      gsap.to(initialPosition.current, {
+        y: 0,
+        duration: 0.4,
+        delay: 0.75,
+        ease: "sine.out",
+      });
     },
     () => {
       const inactiveMaterials = inactiveModels.map((model) => materials[model]);
 
-      const rotationTl = gsap.timeline();
-
-      rotationTl.fromTo(
-        modelChangeRotation.current,
-        { x: 0 },
-        {
-          x: Math.PI * 0.125,
-          ...modelTransitionConfig,
-          duration: Number(modelTransitionConfig.duration) * 0.5,
-        }
+      gsap.fromTo(
+        modelChangeRotation,
+        { current: Math.PI * 0 },
+        { current: Math.PI * -4, ...modelTransitionConfig }
       );
-      rotationTl.to(modelChangeRotation.current, {
-        x: 0,
-        ...modelTransitionConfig,
-        duration: Number(modelTransitionConfig.duration) * 0.5,
-      });
 
-      rotationTl.fromTo(
-        modelChangeRotation.current,
-        { y: Math.PI * 0 },
-        { y: Math.PI * 4, ...modelTransitionConfig },
-        0
-      );
+      gsap
+        .timeline({
+          defaults: {
+            ...modelTransitionConfig,
+            duration: Number(modelTransitionConfig.duration) * 0.5,
+          },
+        })
+        .to(modelChangePositionY, { current: 0.3 })
+        .to(modelChangePositionY, { current: 0 });
 
       gsap.to(materials[activeModel], {
         opacity: 1,
@@ -135,14 +154,14 @@ export function Model(props: JSX.IntrinsicElements["group"]) {
         toggleActions: "play none none reverse",
         onEnter: () => {
           gsap.to(transitionRotation.current, {
-            y: Math.PI * 2,
+            z: Math.PI * 2,
             duration: 1,
             ease: "power3.out",
           });
         },
         onLeaveBack: () => {
           gsap.to(transitionRotation.current, {
-            y: Math.PI * 0,
+            z: Math.PI * 0,
             duration: 1,
             ease: "power3.out",
           });
@@ -153,72 +172,72 @@ export function Model(props: JSX.IntrinsicElements["group"]) {
       const phase2BaseTrigger: ScrollTrigger.Vars = {
         trigger: "#about-section",
         endTrigger: "#canvas2-scrollarea",
+        start: "center center",
         end: "bottom bottom",
-        scrub: true,
+        scrub: 0.5,
       };
 
-      gsap.to(phase2Rotation.current, {
-        y: 5.2,
-        z: 1.24,
-        ease: "none",
-        scrollTrigger: { ...phase2BaseTrigger, start: "top 25%" },
-      });
-
-      gsap.to(phase2Rotation.current, {
-        x: -0.83,
-        ease: "none",
-        scrollTrigger: { ...phase2BaseTrigger, start: "bottom 30%" },
-      });
+      gsap
+        .timeline({ scrollTrigger: phase2BaseTrigger })
+        .to(phase2Rotation.current, {
+          x: Math.PI * 0.5,
+          y: Math.PI * 0.5,
+          ease: "none",
+        })
+        .to(phase2Rotation.current, {
+          y: Math.PI * 1.5,
+          ease: "none",
+        });
     },
     { dependencies: [], revertOnUpdate: true }
   );
 
   useFrame(({ clock }) => {
+    if (!group.current) return;
+
     const time = clock.getElapsedTime();
 
-    if (group.current) {
-      group.current.position.x = -0.05;
-      group.current.position.y =
-        -0.225 +
-        Math.sin(0.5 * time) * 0.1 +
-        modelChangeRotation.current.x * 0.5;
+    group.current.position.y =
+      Math.sin(0.5 * time) * 0.1 +
+      modelChangePositionY.current +
+      initialPosition.current.y -
+      0.12;
 
-      group.current.rotation.set(
-        modelChangeRotation.current.x +
-          phase1Rotation.current.x +
-          transitionRotation.current.x +
-          phase2Rotation.current.x -
-          0.35 +
-          Math.max(-0.025, Math.sin(time * 0.2 + 0.5) * 0.15),
-        modelChangeRotation.current.y +
-          phase1Rotation.current.y +
-          transitionRotation.current.y +
-          phase2Rotation.current.y +
-          0.85,
-        modelChangeRotation.current.z +
-          phase1Rotation.current.z +
-          transitionRotation.current.z +
-          phase2Rotation.current.z -
-          0.72 +
-          Math.max(-0.075, Math.sin(time * 0.2 + 0.5) * 0.2)
-      );
-    }
+    group.current.rotation.x =
+      Math.PI * 1.5 +
+      phase1Rotation.current.x +
+      transitionRotation.current.x +
+      phase2Rotation.current.x +
+      Math.max(-0.125, Math.sin(time * 0.2 + 0.5) * 0.2) +
+      leva.x;
+
+    group.current.rotation.y =
+      transitionRotation.current.y +
+      phase2Rotation.current.y +
+      Math.sin(time * 0.5 + 0.5) * 0.1 +
+      leva.y;
+
+    group.current.rotation.z =
+      -0.6 +
+      phase1Rotation.current.z +
+      transitionRotation.current.z +
+      phase2Rotation.current.z -
+      modelChangeRotation.current +
+      leva.z;
   });
 
   return (
     <group ref={group} {...props} scale={0.175} dispose={null}>
       <group>
-        <group
-          name="groep_brewdistrict_blikjes"
-          position={[-0.15, 0.891, 0.013]}
-          rotation={[-1.29, -0.92, -1.297]}
-        >
+        <group name="groep_brewdistrict_blikjes" rotation={[0.05, 0.05, 0]}>
           <mesh
             name="0"
             geometry={nodes["0"].geometry}
             material={materials["Mat.1"]}
             position={[0.013, 0.027, 0.021]}
             rotation={[1.568, 0, 0]}
+            material-transparent
+            material-opacity={0}
           />
 
           {models.map((model) => (
@@ -231,6 +250,7 @@ export function Model(props: JSX.IntrinsicElements["group"]) {
               position={[0.013, 0.027, 0.021]}
               rotation={[1.568, 0, 0]}
               material-transparent
+              material-opacity={0}
             />
           ))}
         </group>

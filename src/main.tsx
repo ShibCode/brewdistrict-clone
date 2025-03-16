@@ -6,7 +6,7 @@ import ModelProvider from "./context/ModelProvider.tsx";
 
 createRoot(document.getElementById("root")!).render(
   <>
-    <Leva hidden />
+    <Leva />
     <ModelProvider>
       <App />
     </ModelProvider>

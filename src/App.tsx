@@ -35,14 +35,15 @@ const App = () => {
       <ModelSwitcher />
 
       {isStarted ? (
-        <main>
-          <Home />
-        </main>
+        <>
+          <main>
+            <Home />
+          </main>
+          <Footer />
+        </>
       ) : (
         <Loading start={start} />
       )}
-
-      <Footer />
     </>
   );
 };
