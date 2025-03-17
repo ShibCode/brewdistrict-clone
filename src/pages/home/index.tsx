@@ -11,8 +11,7 @@ import { ScrollTrigger } from "gsap/all";
 import Background from "./Background";
 
 const Home = () => {
-  const block1 = useRef<HTMLDivElement>(null);
-  const block2 = useRef<HTMLDivElement>(null);
+  const canvas1Wrapper = useRef<HTMLDivElement>(null);
   const canvas1 = useRef<HTMLDivElement>(null);
   const canvas2 = useRef<HTMLDivElement>(null);
 
@@ -22,11 +21,12 @@ const Home = () => {
 
       new ScrollTrigger({
         trigger: "#about-section",
-        start: "top 25%",
+        start: "top 30%",
         onEnter: () => {
-          gsap.to(canvas1.current, {
+          gsap.to(canvas1Wrapper.current, {
             y: window.innerHeight,
             duration: 1,
+            delay: 0.125,
             ease: "power3.out",
           });
           gsap.to(canvas2.current, {
@@ -36,13 +36,14 @@ const Home = () => {
           });
         },
         onLeaveBack: () => {
-          gsap.to(canvas1.current, {
+          gsap.to(canvas1Wrapper.current, {
             y: 0,
             duration: 1,
             ease: "power3.out",
           });
           gsap.to(canvas2.current, {
             y: -window.innerHeight,
+            delay: 0.125,
             duration: 1,
             ease: "power3.out",
           });
@@ -50,27 +51,36 @@ const Home = () => {
       });
 
       setTimeout(() => {
-        gsap.to(block1.current, {
+        gsap.to("#block1", {
           y: () => `${window.innerHeight * 0.4}`,
           ease: "none",
           scrollTrigger: {
-            trigger: block1.current,
+            trigger: "#block1",
             start: "bottom bottom",
             end: () => `+=${window.innerHeight}`,
             scrub: true,
           },
         });
-        gsap.to(block2.current, {
+        gsap.to("#block2", {
           y: () => `${window.innerHeight * 0.4}`,
           ease: "none",
           scrollTrigger: {
-            trigger: block2.current,
+            trigger: "#block2",
             start: "bottom bottom",
             end: () => `+=${window.innerHeight}`,
             scrub: true,
           },
         });
       }, 1000);
+
+      new ScrollTrigger({
+        trigger: "#hero-section",
+        start: "top top",
+        endTrigger: "#beers-section-content",
+        end: "50% center",
+        pin: canvas1.current,
+        pinType: "transform",
+      });
     },
 
     { dependencies: [], revertOnUpdate: true }
@@ -79,18 +89,14 @@ const Home = () => {
   return (
     <>
       <div className="overflow-y-clip relative">
-        <div
-          ref={block1}
-          id="block1"
-          className="isolate relative pb-[20vh] overflow-y-clip"
-        >
+        <div id="block1" className="isolate relative pb-[20vh] overflow-y-clip">
           <Background />
 
-          <div className="h-[200vh] absolute w-full left-0 top-0 pointer-events-none">
-            <div
-              ref={canvas1}
-              className="sticky top-0 w-full h-screen z-10 flex justify-center items-center"
-            >
+          <div
+            ref={canvas1Wrapper}
+            className="z-10 absolute w-full h-screen pointer-events-none"
+          >
+            <div ref={canvas1} className="size-full grid place-items-center">
               <Model />
             </div>
           </div>
@@ -114,7 +120,7 @@ const Home = () => {
           </div>
 
           <div className="bg-primary overflow-hidden">
-            <div ref={block2} id="block2" className="relative z-10">
+            <div id="block2" className="relative z-10">
               <About />
             </div>
           </div>

@@ -25,7 +25,7 @@ const Beers = () => {
 
     gsap.fromTo(
       beerContainer.current,
-      { y: "-32.5vh" },
+      { y: "-21vw" },
       {
         y: 0,
         ease: "none",
@@ -37,9 +37,9 @@ const Beers = () => {
   return (
     <section
       id="beers-section"
-      className="flex flex-col items-center justify-center h-screen pt-[5vw] gap-[1.5vw]"
+      className="flex flex-col items-center pt-[15vw] gap-[1.5vw]"
     >
-      <div className="relative flex flex-col items-center">
+      <div id="beers-section-content" className="flex flex-col items-center">
         <div className="flex gap-[6vw]">
           <div className="w-full flex flex-col items-end justify-between text-end gap-[3vw] pb-[2vw] pt-[1vw]">
             <div className="uppercase flex flex-col gap-[1vw]">
@@ -76,6 +76,17 @@ const Beers = () => {
               aria-hidden
             >
               <rect
+                x="6"
+                y="6"
+                width="88"
+                height="161"
+                fill="none"
+                stroke="white"
+                strokeWidth="0.3"
+                rx={16}
+              />
+
+              <rect
                 x="2"
                 y="2"
                 width="96"
@@ -96,8 +107,6 @@ const Beers = () => {
                 />
               </rect>
             </svg>
-
-            <div className="w-full h-full border border-[#F7F7F7] rounded-[60px]"></div>
           </div>
 
           <div className="w-full flex flex-col justify-between pb-[2vw] pt-[1vw]">
@@ -131,31 +140,31 @@ const Beers = () => {
             </div>
           </div>
         </div>
+      </div>
 
-        <div className="flex flex-col items-center gap-[0.5vw] absolute top-full translate-y-[1.5vw]">
-          <p>
-            {models.indexOf(activeModel) + 1}/{models.length}
-          </p>
+      <div className="flex flex-col items-center gap-[0.5vw]">
+        <p>
+          {models.indexOf(activeModel) + 1}/{models.length}
+        </p>
 
-          <div className="flex items-center justify-between w-[20vw] px-[0.5vw]">
-            <button
-              className="w-[2.5vw] aspect-square border rounded-full grid place-items-center"
-              onClick={previousModel}
-            >
-              <FaArrowLeft className="size-1/2" />
-            </button>
+        <div className="flex items-center justify-between w-[20vw] px-[0.5vw]">
+          <button
+            className="w-[2.5vw] aspect-square border rounded-full grid place-items-center"
+            onClick={previousModel}
+          >
+            <FaArrowLeft className="size-1/2" />
+          </button>
 
-            <span className="uppercase text-[1.25vw] font-roseford">
-              {activeModel}
-            </span>
+          <span className="uppercase text-[1.25vw] font-roseford">
+            {activeModel}
+          </span>
 
-            <button
-              className="w-[2.5vw] aspect-square border rounded-full grid place-items-center"
-              onClick={nextModel}
-            >
-              <FaArrowRight className="size-1/2" />
-            </button>
-          </div>
+          <button
+            className="w-[2.5vw] aspect-square border rounded-full grid place-items-center"
+            onClick={nextModel}
+          >
+            <FaArrowRight className="size-1/2" />
+          </button>
         </div>
       </div>
     </section>

@@ -6,8 +6,9 @@ import React, {
   useRef,
   useState,
 } from "react";
+import { getRandomElement } from "../lib/utils";
 
-export const models = ["Stout", "Ipa", "Blond", "Neipa"] as const;
+export const models = ["Blond", "Stout", "Ipa", "Neipa"] as const;
 
 export const modelColors: Record<
   ModelType,
@@ -49,7 +50,9 @@ export const useModel = () => {
 };
 
 const ModelProvider = ({ children }: { children: React.ReactNode }) => {
-  const [activeModel, setActiveModel] = useState<ModelType>(models[0]);
+  const [activeModel, setActiveModel] = useState<ModelType>(
+    getRandomElement(models)
+  );
 
   const isChangingModel = useRef(false);
 

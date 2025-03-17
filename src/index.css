@@ -31,6 +31,10 @@
   animation: translateAnim 4s ease-in-out infinite;
 }
 
+.rotate-anim {
+  animation: rotateAnim 15s linear infinite;
+}
+
 @keyframes translateAnim {
   0% {
     translate: 0% 0%;
@@ -40,5 +44,14 @@
   }
   100% {
     translate: 500% 0%;
+  }
+}
+
+@keyframes rotateAnim {
+  0% {
+    rotate: 0deg;
+  }
+  100% {
+    rotate: -360deg;
   }
 }

@@ -32,10 +32,11 @@ const App = () => {
   return (
     <>
       <Header />
-      <ModelSwitcher />
 
       {isStarted ? (
         <>
+          <ModelSwitcher />
+
           <main>
             <Home />
           </main>

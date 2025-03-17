@@ -1,11 +1,14 @@
 import { useEffect, useRef } from "react";
 import gsap from "gsap";
+import { modelColors, useModel } from "../context/ModelProvider";
 
 interface LoadingProps {
   start: () => void;
 }
 
 const Loading = ({ start }: LoadingProps) => {
+  const { activeModel } = useModel();
+
   const blackScreen = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -27,7 +30,7 @@ const Loading = ({ start }: LoadingProps) => {
       <div ref={blackScreen} className="bg-secondary absolute inset-0 z-10" />
 
       <div
-        style={{ backgroundColor: "rgb(174, 102, 103)" }}
+        style={{ background: modelColors[activeModel].primary }}
         className="w-full h-screen relative isolate"
       >
         <div

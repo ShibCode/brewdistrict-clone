@@ -3,6 +3,9 @@ import gsap from "gsap";
 import { useRef } from "react";
 import LineStaggerIn from "../../components/animations/LineStaggerIn";
 import HorizontalScaleOut from "../../components/animations/HorizontalScaleOut";
+import RoundedText from "../../components/svg/RoundedText";
+import { FaArrowDown } from "react-icons/fa6";
+import FadeUp from "../../components/animations/FadeUp";
 
 const Hero = () => {
   const wrapper = useRef<HTMLDivElement>(null);
@@ -36,7 +39,7 @@ const Hero = () => {
     <section
       id="hero-section"
       ref={wrapper}
-      className="h-screen w-full flex flex-col items-center justify-center text-center gap-[0.6vw] pt-[1.1vw]"
+      className="h-screen w-full flex flex-col items-center justify-center text-center gap-[1vw] pt-[1.1vw] relative"
     >
       <h1
         ref={heading}
@@ -87,12 +90,13 @@ const Hero = () => {
         </LineStaggerIn>
       </p>
 
-      <div className="absolute size-[7.6vw] left-0 top-[50vh] z-50">
-        {/* <CircularNav
-          text="PURE & HONEST • PURE & HONEST • PURE & HONEST •"
-          gap={1}
-        /> */}
-      </div>
+      <FadeUp
+        config={{ delay: 1 }}
+        className="absolute size-[7.75vw] left-[6vw] top-[57%] -translate-y-1/2 grid place-items-center"
+      >
+        <RoundedText className="absolute inset-0 rotate-anim" />
+        <FaArrowDown className="text-[2vw]" />
+      </FadeUp>
     </section>
   );
 };

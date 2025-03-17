@@ -49,6 +49,7 @@ const ModelWrapper = () => {
       <directionalLight position={[4, -0.5, 0.5]} intensity={4} color={color} />
       <directionalLight position={[-3, -0.5, 1]} intensity={4} color={color} />
       <ambientLight intensity={0.5} color={"white"} />
+
       <Model />
     </Canvas>
   );
@@ -71,35 +72,37 @@ export function Model(props: JSX.IntrinsicElements["group"]) {
   const modelChangeRotation = useRef(0);
   const modelChangePositionY = useRef(0);
 
+  const animateIn = () => {
+    gsap.to([materials[activeModel], materials["Mat.1"]], {
+      opacity: 1,
+      delay: 1,
+      ease: "sine.out",
+    });
+
+    gsap.to(modelChangeRotation, {
+      current: Math.PI * 2,
+      duration: 0.6,
+      delay: 1,
+      ease: "sine.out",
+    });
+
+    gsap.to(initialPosition.current, {
+      y: 0,
+      duration: 0.75,
+      delay: 1,
+      ease: "power2.out",
+    });
+  };
+
   useStageEffect(
-    () => {
-      gsap.to([materials[activeModel], materials["Mat.1"]], {
-        opacity: 1,
-        delay: 0.75,
-        duration: 0.75,
-        ease: "sine.out",
-      });
-
-      gsap.fromTo(
-        modelChangeRotation,
-        { current: Math.PI * 0 },
-        { current: Math.PI * 2, duration: 0.75, delay: 0.75, ease: "sine.out" }
-      );
-
-      gsap.to(initialPosition.current, {
-        y: 0,
-        duration: 0.4,
-        delay: 0.75,
-        ease: "sine.out",
-      });
-    },
+    animateIn,
     () => {
       const inactiveMaterials = inactiveModels.map((model) => materials[model]);
 
       gsap.fromTo(
         modelChangeRotation,
         { current: Math.PI * 0 },
-        { current: Math.PI * -4, ...modelTransitionConfig }
+        { current: Math.PI * 4, ...modelTransitionConfig }
       );
 
       gsap
@@ -109,7 +112,7 @@ export function Model(props: JSX.IntrinsicElements["group"]) {
             duration: Number(modelTransitionConfig.duration) * 0.5,
           },
         })
-        .to(modelChangePositionY, { current: 0.3 })
+        .to(modelChangePositionY, { current: 0.25 })
         .to(modelChangePositionY, { current: 0 });
 
       gsap.to(materials[activeModel], {
@@ -131,32 +134,34 @@ export function Model(props: JSX.IntrinsicElements["group"]) {
       const phase1Trigger: ScrollTrigger.Vars = {
         trigger: "#hero-section",
         start: "top top",
-        endTrigger: "#beers-section",
-        end: "bottom bottom",
-        scrub: true,
+        endTrigger: "#beers-section-content",
+        end: "40% center",
+        scrub: 1,
       };
 
       gsap
         .timeline({ defaults: { ease: "none" }, scrollTrigger: phase1Trigger })
-        .to(phase1Rotation.current, { x: Math.PI * 2, z: Math.PI * 2 })
+        .to(phase1Rotation.current, { x: Math.PI * 2, y: Math.PI * 2 })
         .to(group.current.scale, { x: 0.155, y: 0.155, z: 0.155 }, 0);
 
       // transition rotation (from phase 1 to phase 2)
       new ScrollTrigger({
         trigger: "#about-section",
-        start: "top 25%",
+        start: "top 30%",
         toggleActions: "play none none reverse",
         onEnter: () => {
           gsap.to(transitionRotation.current, {
-            z: Math.PI * 2,
+            y: Math.PI * 2,
             duration: 1,
+            delay: 0.125,
             ease: "power3.out",
           });
         },
         onLeaveBack: () => {
           gsap.to(transitionRotation.current, {
-            z: Math.PI * 0,
+            y: Math.PI * 0,
             duration: 1,
+            delay: 0.125,
             ease: "power3.out",
           });
         },
@@ -168,60 +173,75 @@ export function Model(props: JSX.IntrinsicElements["group"]) {
         endTrigger: "#canvas2-scrollarea",
         start: "center center",
         end: "bottom bottom",
-        scrub: 0.5,
+        scrub: 1,
       };
 
       gsap
         .timeline({ scrollTrigger: phase2BaseTrigger })
         .to(phase2Rotation.current, {
           x: Math.PI * 0.5,
-          y: Math.PI * 0.5,
+          z: -Math.PI * 0.5,
           ease: "none",
         })
         .to(phase2Rotation.current, {
-          y: Math.PI * 1.5,
+          z: -Math.PI * 1.5,
           ease: "none",
         });
     },
     { dependencies: [], revertOnUpdate: true }
   );
 
+  const leva = useControls("Model", {
+    x: { min: 0, max: Math.PI * 2, value: 0 },
+    y: { min: 0, max: Math.PI * 2, value: 0 },
+    z: { min: 0, max: Math.PI * 2, value: 0 },
+  });
+
   useFrame(({ clock }) => {
     if (!group.current) return;
 
     const time = clock.getElapsedTime();
+    const rotationTime = Math.max(time - 4, 0);
 
     group.current.position.y =
       Math.sin(0.5 * time) * 0.1 +
       modelChangePositionY.current +
-      initialPosition.current.y -
-      0.12;
+      initialPosition.current.y;
 
-    group.current.rotation.x =
-      Math.PI * 1.5 +
-      phase1Rotation.current.x +
-      transitionRotation.current.x +
-      phase2Rotation.current.x +
-      Math.max(-0.125, Math.sin(time * 0.2 + 0.5) * 0.2);
+    const rotation = { x: leva.x, y: leva.y, z: leva.z };
 
-    group.current.rotation.y =
-      phase1Rotation.current.y +
-      transitionRotation.current.y +
-      phase2Rotation.current.y +
-      Math.sin(time * 0.5 + 0.5) * 0.1;
+    // hero section -> beers slider section
+    rotation.x += phase1Rotation.current.x;
+    rotation.y += phase1Rotation.current.y;
+    rotation.z += phase1Rotation.current.z;
 
-    group.current.rotation.z =
-      -0.6 +
-      phase1Rotation.current.z +
-      transitionRotation.current.z +
-      phase2Rotation.current.z -
-      modelChangeRotation.current;
+    // transition from beers slider section to about section
+    rotation.x += transitionRotation.current.x;
+    rotation.y += transitionRotation.current.y;
+    rotation.z += transitionRotation.current.z;
+
+    // about section -> news letter section
+    rotation.x += phase2Rotation.current.x;
+    rotation.y += phase2Rotation.current.y;
+    rotation.z += phase2Rotation.current.z;
+
+    // rotation when model is initially rendered or when model changes
+    rotation.y += modelChangeRotation.current;
+
+    // floating effect
+    rotation.x += Math.max(-0.125, Math.sin(rotationTime * 0.1) * 0.2);
+    rotation.z += -Math.sin(rotationTime * 0.3) * 0.1;
+
+    group.current.rotation.set(rotation.x, rotation.y, rotation.z);
   });
 
   return (
     <group ref={group} {...props} scale={0.175} dispose={null}>
       <group>
-        <group name="groep_brewdistrict_blikjes" rotation={[0.05, 0.05, 0]}>
+        <group
+          name="groep_brewdistrict_blikjes"
+          rotation={[Math.PI * -0.5 + 0.05, 0.05, -0.6]}
+        >
           <mesh
             name="0"
             geometry={nodes["0"].geometry}
