@@ -16,7 +16,8 @@ const Hero = () => {
   useGSAP(
     () => {
       const headingLines = heading.current!.querySelectorAll(".line");
-      const elems = [heading.current, line.current, para.current];
+      const elems = [...headingLines, line.current, para.current];
+      const offset = [-580, -380, -180, -120, -60];
 
       const tl = gsap.timeline({
         scrollTrigger: {
@@ -26,11 +27,7 @@ const Hero = () => {
           scrub: true,
         },
       });
-      tl.to(headingLines, {
-        ease: "none",
-        y: (i) => (headingLines.length - i - 1) * -200,
-      });
-      tl.to(elems, { ease: "none", y: (i) => (elems.length - i) * -60 }, 0);
+      tl.to(elems, { ease: "none", y: (i) => offset[i] });
     },
     { dependencies: [], revertOnUpdate: true }
   );
@@ -47,7 +44,7 @@ const Hero = () => {
       >
         <LineStaggerIn className="line">Classic craft beers,</LineStaggerIn>
         <LineStaggerIn className="line">brewed without</LineStaggerIn>
-        <LineStaggerIn className="line">fuss</LineStaggerIn>
+        <LineStaggerIn className="relative line z-10">fuss</LineStaggerIn>
       </h1>
 
       <HorizontalScaleOut
