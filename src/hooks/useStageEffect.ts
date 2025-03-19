@@ -3,7 +3,7 @@ import { useLayoutEffect, useRef } from "react";
 const useStageEffect = (
   initialCallback: () => void,
   subsequentCallback: () => void,
-  dependencies: React.DependencyList
+  dependencies: React.DependencyList,
 ) => {
   const firstRenderRef = useRef(true);
 

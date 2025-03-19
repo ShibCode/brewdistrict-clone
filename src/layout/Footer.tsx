@@ -1,8 +1,8 @@
 const Footer = () => {
   return (
     <footer className="flex justify-center">
-      <div className="flex justify-between max-w-[1280px] w-[90%] py-8">
-        <div className="flex font-eczar text-[0.75vw] gap-[0.5em]">
+      <div className="flex w-[90%] max-w-[1280px] justify-between py-8">
+        <div className="flex gap-[0.5em] font-eczar text-[0.75vw]">
           <p className="opacity-40">
             © 2025 BrewDistrict24 - All rights reserved
           </p>

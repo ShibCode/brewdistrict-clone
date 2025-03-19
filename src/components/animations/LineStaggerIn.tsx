@@ -44,7 +44,7 @@ const LineStaggerIn = ({
         duration: 0.3,
         ease: "power1.out",
         ...config,
-      }
+      },
     );
   }, []);
 

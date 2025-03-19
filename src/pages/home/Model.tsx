@@ -44,7 +44,7 @@ const ModelWrapper = () => {
   return (
     <Canvas
       gl={{ toneMapping: THREE.ACESFilmicToneMapping }}
-      className="!absolute !h-[100vw] !pointer-events-none"
+      className="!pointer-events-none !absolute !h-[100vw]"
     >
       <directionalLight position={[4, -0.5, 0.5]} intensity={4} color={color} />
       <directionalLight position={[-3, -0.5, 1]} intensity={4} color={color} />
@@ -60,7 +60,7 @@ export function Model(props: JSX.IntrinsicElements["group"]) {
 
   const group = useRef<THREE.Group | null>(null);
   const { nodes, materials } = useGLTF(
-    "/beer-model/beer-model-1-compressed.gltf"
+    "/beer-model/beer-model-1-compressed.gltf",
   ) as GLTFResult;
 
   const initialPosition = useRef({ x: 0, y: 1, z: 0 });
@@ -94,37 +94,33 @@ export function Model(props: JSX.IntrinsicElements["group"]) {
     });
   };
 
-  useStageEffect(
-    animateIn,
-    () => {
-      const inactiveMaterials = inactiveModels.map((model) => materials[model]);
+  useStageEffect(animateIn, () => {
+    const inactiveMaterials = inactiveModels.map((model) => materials[model]);
 
-      gsap.fromTo(
-        modelChangeRotation,
-        { current: Math.PI * 0 },
-        { current: Math.PI * 4, ...modelTransitionConfig }
-      );
+    gsap.fromTo(
+      modelChangeRotation,
+      { current: Math.PI * 0 },
+      { current: Math.PI * 4, ...modelTransitionConfig },
+    );
 
-      gsap
-        .timeline({
-          defaults: {
-            ...modelTransitionConfig,
-            duration: Number(modelTransitionConfig.duration) * 0.5,
-          },
-        })
-        .to(modelChangePositionY, { current: 0.25 })
-        .to(modelChangePositionY, { current: 0 });
-
-      gsap.to(materials[activeModel], {
-        opacity: 1,
-        ...modelTransitionConfig,
-        onComplete: () => {
-          gsap.set(inactiveMaterials, { opacity: 0 });
+    gsap
+      .timeline({
+        defaults: {
+          ...modelTransitionConfig,
+          duration: Number(modelTransitionConfig.duration) * 0.5,
         },
-      });
-    },
-    [activeModel]
-  );
+      })
+      .to(modelChangePositionY, { current: 0.25 })
+      .to(modelChangePositionY, { current: 0 });
+
+    gsap.to(materials[activeModel], {
+      opacity: 1,
+      ...modelTransitionConfig,
+      onComplete: () => {
+        gsap.set(inactiveMaterials, { opacity: 0 });
+      },
+    });
+  }, [activeModel]);
 
   useGSAP(
     () => {
@@ -188,7 +184,7 @@ export function Model(props: JSX.IntrinsicElements["group"]) {
           ease: "none",
         });
     },
-    { dependencies: [], revertOnUpdate: true }
+    { dependencies: [], revertOnUpdate: true },
   );
 
   const leva = useControls("Model", {

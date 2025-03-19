@@ -21,7 +21,7 @@ const FadeUp = ({ children, className = "", config = {} }: FadeUpProps) => {
         y: 0,
         ease: "power2.out",
         ...config,
-      }
+      },
     );
   }, []);
 

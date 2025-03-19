@@ -83,20 +83,20 @@ const Home = () => {
       });
     },
 
-    { dependencies: [], revertOnUpdate: true }
+    { dependencies: [], revertOnUpdate: true },
   );
 
   return (
     <>
-      <div className="overflow-y-clip relative">
-        <div id="block1" className="isolate relative pb-[20vh] overflow-y-clip">
+      <div className="relative overflow-y-clip">
+        <div id="block1" className="relative isolate overflow-y-clip pb-[20vh]">
           <Background />
 
           <div
             ref={canvas1Wrapper}
-            className="z-10 absolute w-full h-screen pointer-events-none"
+            className="pointer-events-none absolute z-10 h-screen w-full"
           >
-            <div ref={canvas1} className="size-full grid place-items-center">
+            <div ref={canvas1} className="grid size-full place-items-center">
               <Model />
             </div>
           </div>
@@ -109,17 +109,17 @@ const Home = () => {
           <div
             id="canvas2-scrollarea"
             style={{ clipPath: "polygon(0 0, 0% 100%, 100% 100%, 100% 0%)" }}
-            className="absolute w-full h-full left-0 top-0"
+            className="absolute left-0 top-0 h-full w-full"
           >
             <div
               ref={canvas2}
-              className="sticky top-0 w-full h-screen z-10 flex justify-center items-center blur-[20px] opacity-60"
+              className="sticky top-0 z-10 flex h-screen w-full items-center justify-center opacity-60 blur-[20px]"
             >
               <Model />
             </div>
           </div>
 
-          <div className="bg-primary overflow-hidden">
+          <div className="overflow-hidden bg-primary">
             <div id="block2" className="relative z-10">
               <About />
             </div>

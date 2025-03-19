@@ -29,27 +29,27 @@ const Hero = () => {
       });
       tl.to(elems, { ease: "none", y: (i) => offset[i] });
     },
-    { dependencies: [], revertOnUpdate: true }
+    { dependencies: [], revertOnUpdate: true },
   );
 
   return (
     <section
       id="hero-section"
       ref={wrapper}
-      className="h-screen w-full flex flex-col items-center justify-center text-center gap-[1vw] pt-[1.1vw] relative"
+      className="relative flex h-screen w-full flex-col items-center justify-center gap-[1vw] pt-[1.1vw] text-center"
     >
       <h1
         ref={heading}
-        className="uppercase text-[9.5625vw] leading-[8.125vw] max-w-[75vw]"
+        className="max-w-[75vw] text-[9.5625vw] uppercase leading-[8.125vw]"
       >
         <LineStaggerIn className="line">Classic craft beers,</LineStaggerIn>
         <LineStaggerIn className="line">brewed without</LineStaggerIn>
-        <LineStaggerIn className="relative line z-10">fuss</LineStaggerIn>
+        <LineStaggerIn className="line relative z-10">fuss</LineStaggerIn>
       </h1>
 
       <HorizontalScaleOut
         config={{ delay: 0.75, duration: 1, ease: "power2.out" }}
-        className="w-full h-px max-w-[600px]"
+        className="h-px w-full max-w-[600px]"
       >
         <div ref={line}>
           <svg
@@ -80,7 +80,7 @@ const Hero = () => {
 
       <p
         ref={para}
-        className="uppercase text-[2.6875vw] leading-[3.125vw] z-10"
+        className="z-10 text-[2.6875vw] uppercase leading-[3.125vw]"
       >
         <LineStaggerIn config={{ stagger: 0.02 }}>
           Pure, honest and damn delicious
@@ -89,9 +89,9 @@ const Hero = () => {
 
       <FadeUp
         config={{ delay: 1 }}
-        className="absolute size-[7.75vw] left-[6vw] top-[57%] -translate-y-1/2 grid place-items-center"
+        className="absolute left-[6vw] top-[57%] grid size-[7.75vw] -translate-y-1/2 place-items-center"
       >
-        <RoundedText className="absolute inset-0 rotate-anim" />
+        <RoundedText className="rotate-anim absolute inset-0" />
         <FaArrowDown className="text-[2vw]" />
       </FadeUp>
     </section>

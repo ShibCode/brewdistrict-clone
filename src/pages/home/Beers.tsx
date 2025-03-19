@@ -30,24 +30,24 @@ const Beers = () => {
         y: 0,
         ease: "none",
         scrollTrigger,
-      }
+      },
     );
   }, []);
 
   return (
     <section
       id="beers-section"
-      className="flex flex-col items-center pt-[15vw] gap-[1.5vw]"
+      className="flex flex-col items-center gap-[1.5vw] pt-[15vw]"
     >
       <div id="beers-section-content" className="flex flex-col items-center">
         <div className="flex gap-[6vw]">
-          <div className="w-full flex flex-col items-end justify-between text-end gap-[3vw] pb-[2vw] pt-[1vw]">
-            <div className="uppercase flex flex-col gap-[1vw]">
-              <h2 className="uppercase text-[1.125vw] leading-[1.125vw]">
+          <div className="flex w-full flex-col items-end justify-between gap-[3vw] pb-[2vw] pt-[1vw] text-end">
+            <div className="flex flex-col gap-[1vw] uppercase">
+              <h2 className="text-[1.125vw] uppercase leading-[1.125vw]">
                 Discover Our Beers
               </h2>
 
-              <h3 className="text-secondary text-[4vw] leading-[4.375vw] font-roseford max-w-[25vw]">
+              <h3 className="max-w-[25vw] font-roseford text-[4vw] leading-[4.375vw] text-secondary">
                 Imperial Stout
               </h3>
               <p className="text-[1.5vw] leading-[1.75vw]">
@@ -55,9 +55,9 @@ const Beers = () => {
               </p>
             </div>
 
-            <div className="uppercase space-y-[0.75vw]">
+            <div className="space-y-[0.75vw] uppercase">
               <h4 className="text-[0.875vw] leading-[0.875vw]">Ingredients</h4>
-              <p className="text-[1.5vw] leading-[1.75vw] text-secondary max-w-[16vw]">
+              <p className="max-w-[16vw] text-[1.5vw] leading-[1.75vw] text-secondary">
                 Water, Malt (Pale malt, Cara120, wheat, mroast (650-1300),
                 biscuit), Hop (pacific gem), Yeast, Alcohol 10%
               </p>
@@ -66,7 +66,7 @@ const Beers = () => {
 
           <div
             ref={beerContainer}
-            className="w-[20vw] h-[33vw] shrink-0 p-5 relative"
+            className="relative h-[33vw] w-[20vw] shrink-0 p-5"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -109,12 +109,12 @@ const Beers = () => {
             </svg>
           </div>
 
-          <div className="w-full flex flex-col justify-between pb-[2vw] pt-[1vw]">
+          <div className="flex w-full flex-col justify-between pb-[2vw] pt-[1vw]">
             <div className="space-y-[1.25vw]">
-              <h4 className="uppercase text-[1.125vw] leading-[1.125vw]">
+              <h4 className="text-[1.125vw] uppercase leading-[1.125vw]">
                 Explore the dark depths of Imperial Stout
               </h4>
-              <p className="text-secondary text-[1vw] leading-[1.75vw] font-eczar max-w-[26vw]">
+              <p className="max-w-[26vw] font-eczar text-[1vw] leading-[1.75vw] text-secondary">
                 Is it still raining? No worries. Just take another deep dive
                 into this full bodied-beer which delicately hits every side of
                 your palette. Pure and honest. Damn delicious. Something about
@@ -122,19 +122,19 @@ const Beers = () => {
               </p>
             </div>
 
-            <div className="w-full max-w-[350px] flex flex-col">
-              <div className="uppercase grid grid-cols-2 gap-10">
+            <div className="flex w-full max-w-[350px] flex-col">
+              <div className="grid grid-cols-2 gap-10 uppercase">
                 <InfoCard label="Storage Advice" value="8°C - 10°C" />
                 <InfoCard label="Color" value="130 EBC" />
                 <InfoCard label="Calories" value="160" />
                 <InfoCard label="Bitterness" value="21 IBU" />
               </div>
 
-              <p className="text-secondary uppercase text-[0.875vw] leading-[0.875vw] mt-[0.5vw]">
+              <p className="mt-[0.5vw] text-[0.875vw] uppercase leading-[0.875vw] text-secondary">
                 Contains Gluten
               </p>
 
-              <button className="bg-[#7ECF86] text-black font-freudian text-[0.859vw] h-[2.64vw] px-[1.59vw] rounded-full hover:bg-white transition-all duration-300 mt-[1.5vw]">
+              <button className="font-freudian mt-[1.5vw] h-[2.64vw] rounded-full bg-[#7ECF86] px-[1.59vw] text-[0.859vw] text-black transition-all duration-300 hover:bg-white">
                 ORDER NOW
               </button>
             </div>
@@ -147,20 +147,20 @@ const Beers = () => {
           {models.indexOf(activeModel) + 1}/{models.length}
         </p>
 
-        <div className="flex items-center justify-between w-[20vw] px-[0.5vw]">
+        <div className="flex w-[20vw] items-center justify-between px-[0.5vw]">
           <button
-            className="w-[2.5vw] aspect-square border rounded-full grid place-items-center"
+            className="grid aspect-square w-[2.5vw] place-items-center rounded-full border"
             onClick={previousModel}
           >
             <FaArrowLeft className="size-1/2" />
           </button>
 
-          <span className="uppercase text-[1.25vw] font-roseford">
+          <span className="font-roseford text-[1.25vw] uppercase">
             {activeModel}
           </span>
 
           <button
-            className="w-[2.5vw] aspect-square border rounded-full grid place-items-center"
+            className="grid aspect-square w-[2.5vw] place-items-center rounded-full border"
             onClick={nextModel}
           >
             <FaArrowRight className="size-1/2" />
@@ -177,7 +177,7 @@ const InfoCard = ({ label, value }: InfoCardProps) => {
   return (
     <div className="space-y-[0.25vw]">
       <h4 className="text-[0.875vw] leading-[0.875vw]">{label}</h4>
-      <p className="text-[1.5vw] leading-[1.75vw] text-secondary max-w-[16vw]">
+      <p className="max-w-[16vw] text-[1.5vw] leading-[1.75vw] text-secondary">
         {value}
       </p>
     </div>

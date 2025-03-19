@@ -27,31 +27,31 @@ const Newsletter = () => {
             start: "top bottom",
             end: "bottom top",
           },
-        }
+        },
       );
     },
-    { dependencies: [], revertOnUpdate: true }
+    { dependencies: [], revertOnUpdate: true },
   );
 
   return (
     <section
       ref={wrapper}
       id="newsletter-section"
-      className="pt-[16vw] pb-[13vw] flex justify-center"
+      className="flex justify-center pb-[13vw] pt-[16vw]"
     >
       <div ref={content} className="flex w-full">
-        <div className="flex justify-end w-full pr-[4.5vw]">
-          <h2 className="text-[4vw] leading-[4.375vw] uppercase font-roseford max-w-[7em]">
+        <div className="flex w-full justify-end pr-[4.5vw]">
+          <h2 className="max-w-[7em] font-roseford text-[4vw] uppercase leading-[4.375vw]">
             Become part
-            <span className="text-[0.875vw] leading-[0.875vw] font-sans inline-block max-w-[3em] text-center px-[2.25em] box-content -translate-y-[0.8em]">
+            <span className="box-content inline-block max-w-[3em] -translate-y-[0.8em] px-[2.25em] text-center font-sans text-[0.875vw] leading-[0.875vw]">
               Be the first
             </span>
             of our hood
           </h2>
         </div>
 
-        <div className="w-full flex flex-col gap-[1.25vw] pt-[1vw]">
-          <p className="font-eczar text-[1vw] leading-[1.75vw] max-w-[26vw]">
+        <div className="flex w-full flex-col gap-[1.25vw] pt-[1vw]">
+          <p className="max-w-[26vw] font-eczar text-[1vw] leading-[1.75vw]">
             Only the absolute pioneers who sign up for our newsletter get a
             front row seat, because at BrewDistrict24 we cherish those who
             embrace this adventure with us from the very beginning.
@@ -65,23 +65,23 @@ const Newsletter = () => {
               <input
                 type="text"
                 placeholder="Your email address"
-                className="bg-transparent border-b border-current text-[0.875vw] h-[2.5vw] font-eczar placeholder:text-primary placeholder:opacity-40 outline-none text-primary placeholder-shown:text-[#CB4242] transition-colors duration-300 w-full max-w-[26vw]"
+                className="h-[2.5vw] w-full max-w-[26vw] border-b border-current bg-transparent font-eczar text-[0.875vw] text-primary outline-none transition-colors duration-300 placeholder:text-primary placeholder:opacity-40 placeholder-shown:text-[#CB4242]"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
               />
 
               <button
                 aria-label="Join our newsletter"
-                className="bg-[#7ECF86] hover:bg-[#7ECF86]/70 transition-colors duration-300 text-secondary size-[2.75vw] rounded-full flex justify-center items-center text-[1.6vw] relative group overflow-hidden"
+                className="group relative flex size-[2.75vw] items-center justify-center overflow-hidden rounded-full bg-[#7ECF86] text-[1.6vw] text-secondary transition-colors duration-300 hover:bg-[#7ECF86]/70"
               >
                 <div
-                  className="absolute size-full flex justify-center items-center group-hover:translate-x-full group-hover:-translate-y-full transition-all duration-300"
+                  className="absolute flex size-full items-center justify-center transition-all duration-300 group-hover:-translate-y-full group-hover:translate-x-full"
                   aria-hidden
                 >
                   <FiArrowUpRight strokeWidth={2.5} />
                 </div>
                 <div
-                  className="absolute size-full flex justify-center items-center right-full top-full group-hover:translate-x-full group-hover:-translate-y-full transition-all duration-300"
+                  className="absolute right-full top-full flex size-full items-center justify-center transition-all duration-300 group-hover:-translate-y-full group-hover:translate-x-full"
                   aria-hidden
                 >
                   <FiArrowUpRight strokeWidth={2.5} />
@@ -89,7 +89,7 @@ const Newsletter = () => {
               </button>
             </form>
 
-            <p className="font-eczar text-[0.75vw] leading-[1.25vw] max-w-[26vw] pr-1">
+            <p className="max-w-[26vw] pr-1 font-eczar text-[0.75vw] leading-[1.25vw]">
               This site is protected by reCAPTCHA and the Google{" "}
               <a href="#" className="underline">
                 Privacy Policy

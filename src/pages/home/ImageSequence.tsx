@@ -90,19 +90,19 @@ const ImageSequence = () => {
       gsap.fromTo(
         canvasRef.current,
         { opacity: 0 },
-        { opacity: 1, ease: "none", scrollTrigger }
+        { opacity: 1, ease: "none", scrollTrigger },
       );
     },
     {
       dependencies: [],
       revertOnUpdate: true,
-    }
+    },
   );
 
   return (
     <canvas
       ref={canvasRef}
-      className="w-full h-screen relative bg-secondary"
+      className="relative h-screen w-full bg-secondary"
     ></canvas>
   );
 };

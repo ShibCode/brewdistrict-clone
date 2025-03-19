@@ -16,6 +16,8 @@
     "gsap": "^3.12.5",
     "lenis": "^1.1.18",
     "leva": "^0.9.35",
+    "prettier": "^3.5.3",
+    "prettier-plugin-tailwindcss": "^0.6.11",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-icons": "^5.4.0",

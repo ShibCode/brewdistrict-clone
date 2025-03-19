@@ -51,7 +51,7 @@ export const useModel = () => {
 
 const ModelProvider = ({ children }: { children: React.ReactNode }) => {
   const [activeModel, setActiveModel] = useState<ModelType>(
-    getRandomElement(models)
+    getRandomElement(models),
   );
 
   const isChangingModel = useRef(false);

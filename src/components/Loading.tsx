@@ -27,15 +27,15 @@ const Loading = ({ start }: LoadingProps) => {
 
   return (
     <>
-      <div ref={blackScreen} className="bg-secondary absolute inset-0 z-10" />
+      <div ref={blackScreen} className="absolute inset-0 z-10 bg-secondary" />
 
       <div
         style={{ background: modelColors[activeModel].primary }}
-        className="w-full h-screen relative isolate"
+        className="relative isolate h-screen w-full"
       >
         <div
           style={{ backgroundImage: "url(/noise.png" }}
-          className="absolute inset-0 opacity-20 -z-10"
+          className="absolute inset-0 -z-10 opacity-20"
         />
       </div>
     </>

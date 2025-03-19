@@ -10,7 +10,7 @@ const About = () => {
       if (!wrapper.current) return;
 
       const elems = wrapper.current.querySelectorAll(
-        ".content-parallax-element"
+        ".content-parallax-element",
       );
 
       gsap.to(elems, {
@@ -28,33 +28,33 @@ const About = () => {
         },
       });
     },
-    { dependencies: [], revertOnUpdate: true }
+    { dependencies: [], revertOnUpdate: true },
   );
 
   return (
     <div
       ref={wrapper}
       id="about-section"
-      className="text-secondary flex flex-col gap-[0.25vw] items-center pt-[19vw] pb-[15vw]"
+      className="flex flex-col items-center gap-[0.25vw] pb-[15vw] pt-[19vw] text-secondary"
     >
       <h2 className="content-parallax-element text-[1.125vw] leading-[1.125vw]">
         ABOUT BREWDISTRICT24
       </h2>
 
-      <h3 className="content-parallax-element text-[4vw] leading-[4.375vw] uppercase font-roseford text-center max-w-[23em]">
+      <h3 className="content-parallax-element max-w-[23em] text-center font-roseford text-[4vw] uppercase leading-[4.375vw]">
         Welcome to the neighborhood. This
-        <span className="text-[0.875vw] leading-[0.875vw] font-sans inline-block max-w-[13em] px-[2.5em] box-content">
+        <span className="box-content inline-block max-w-[13em] px-[2.5em] font-sans text-[0.875vw] leading-[0.875vw]">
           A haven for like-hearted people, where we drink, laugh and have good
           conversations
         </span>
         is where we come together
-        <span className="text-[0.875vw] leading-[0.875vw] font-sans inline-block max-w-[4.7em] px-[2.5em] box-content">
+        <span className="box-content inline-block max-w-[4.7em] px-[2.5em] font-sans text-[0.875vw] leading-[0.875vw]">
           Enjoy every given moment
         </span>
         as one.
       </h3>
 
-      <div className="content-parallax-element font-eczar text-[1vw] max-w-[64vw] w-full flex gap-[1vw] leading-[1.75vw]">
+      <div className="content-parallax-element flex w-full max-w-[64vw] gap-[1vw] font-eczar text-[1vw] leading-[1.75vw]">
         <p className="w-full">
           In good company, we immerse ourselves in ‘gezelligheid’. Together we
           laugh, drink beer and open ourselves up to new surprising experiences.
@@ -69,8 +69,8 @@ const About = () => {
         </p>
       </div>
 
-      <div className="content-parallax-element max-w-[64vw] w-full flex flex-col gap-[0.65vw]">
-        <div className="w-full h-px bg-current" />
+      <div className="content-parallax-element flex w-full max-w-[64vw] flex-col gap-[0.65vw]">
+        <div className="h-px w-full bg-current" />
 
         <svg viewBox="0 0 800 1" className="w-full" preserveAspectRatio="none">
           <line

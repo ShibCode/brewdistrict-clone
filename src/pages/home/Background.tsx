@@ -20,7 +20,7 @@ const Background = () => {
       gsap.fromTo(
         circle1.current,
         { scale: 0 },
-        { scale: 1, duration: 0.7, ease: "none" }
+        { scale: 1, duration: 0.7, ease: "none" },
       );
 
       gsap.fromTo(
@@ -36,30 +36,30 @@ const Background = () => {
               background: modelColors[activeModel].primary,
             });
           },
-        }
+        },
       );
     },
-    [activeModel]
+    [activeModel],
   );
 
   return (
     <div ref={wrapper} className="absolute inset-0 isolate -z-10">
       <div
         style={{ backgroundImage: "url(/noise.png" }}
-        className="absolute inset-0 opacity-20 z-10"
+        className="absolute inset-0 z-10 opacity-20"
       />
 
-      <div className="sticky top-0 overflow-hidden w-full h-screen grid place-items-center">
+      <div className="sticky top-0 grid h-screen w-full place-items-center overflow-hidden">
         <div
           ref={circle1}
           style={{ background: modelColors[activeModel].primary }}
-          className="absolute h-[300%] aspect-square rounded-[50%] brightness-75"
+          className="absolute aspect-square h-[300%] rounded-[50%] brightness-75"
         ></div>
 
         <div
           ref={circle2}
           style={{ background: modelColors[activeModel].primary }}
-          className="absolute h-[300%] aspect-square rounded-[50%]"
+          className="absolute aspect-square h-[300%] rounded-[50%]"
         ></div>
       </div>
     </div>

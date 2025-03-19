@@ -23,7 +23,7 @@ const HorizontalScaleOut = ({
       {
         scaleX: 1,
         ...config,
-      }
+      },
     );
   }, []);
 

@@ -23,7 +23,7 @@
   }
 
   body {
-    @apply bg-[#1D1D1D] text-primary overflow-y-scroll overflow-x-clip;
+    @apply overflow-x-clip overflow-y-scroll bg-[#1D1D1D] text-primary;
   }
 }
 

@@ -16,11 +16,11 @@ const ModelSwitcher = () => {
       ref={button}
       onClick={nextModel}
       style={{ opacity: 0 }}
-      className="fixed top-1/2 -translate-y-1/2 right-0 z-50 flex flex-col items-center justify-center bg-model transition-colors duration-300 w-[12.5em] aspect-square rounded-full pr-[7em] translate-x-[60%] text-[1.25vw] xl:text-[1vw]"
+      className="fixed right-0 top-1/2 z-50 flex aspect-square w-[12.5em] -translate-y-1/2 translate-x-[60%] flex-col items-center justify-center rounded-full bg-model pr-[7em] text-[1.25vw] transition-colors duration-300 xl:text-[1vw]"
     >
       <div className="relative overflow-hidden">
-        <div className="absolute inset-0 flex justify-end translate-anim">
-          <div className="size-full shrink-0 grid place-items-center">
+        <div className="translate-anim absolute inset-0 flex justify-end">
+          <div className="grid size-full shrink-0 place-items-center">
             <svg viewBox="0 0 13.63 13.63" className="w-[0.9em]">
               <polygon points="8.79 5.37 13.52 1.16 10.45 .48 3.85 7.08 6.56 7.39 1.2 13.58 11.29 5.78 8.79 5.37"></polygon>
               <path d="m12.46,3.95c-.25.1-.38.4-.27.65.9,2.18.4,4.66-1.27,6.33-1.55,1.55-3.82,2.1-5.91,1.42-.27-.08-.54.06-.63.32-.08.26.06.54.32.63.7.23,1.41.33,2.11.33,1.78,0,3.51-.7,4.81-2,1.95-1.95,2.54-4.86,1.48-7.42-.1-.26-.4-.38-.65-.27Z"></path>
@@ -33,7 +33,7 @@ const ModelSwitcher = () => {
           <div className="size-full shrink-0" />
           <div className="size-full shrink-0" />
 
-          <div className="size-full shrink-0 grid place-items-center">
+          <div className="grid size-full shrink-0 place-items-center">
             <svg viewBox="0 0 13.63 13.63" className="w-[0.9em]">
               <polygon points="8.79 5.37 13.52 1.16 10.45 .48 3.85 7.08 6.56 7.39 1.2 13.58 11.29 5.78 8.79 5.37"></polygon>
               <path d="m12.46,3.95c-.25.1-.38.4-.27.65.9,2.18.4,4.66-1.27,6.33-1.55,1.55-3.82,2.1-5.91,1.42-.27-.08-.54.06-.63.32-.08.26.06.54.32.63.7.23,1.41.33,2.11.33,1.78,0,3.51-.7,4.81-2,1.95-1.95,2.54-4.86,1.48-7.42-.1-.26-.4-.38-.65-.27Z"></path>
