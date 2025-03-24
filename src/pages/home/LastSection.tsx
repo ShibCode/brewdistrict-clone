@@ -60,7 +60,7 @@ const LastSection = () => {
     const handlePointerMove = (e: PointerEvent) => {
       if (lastPointerX.current === null) return;
 
-      const totalDistance = (lastPointerX.current - e.clientX) * 0.01;
+      const totalDistance = (lastPointerX.current - e.clientX) * 0.02;
       let moved = 0;
 
       const innerTick = () => {
