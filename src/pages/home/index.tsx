@@ -9,6 +9,7 @@ import Newsletter from "./Newsletter";
 import ImageSequence from "./ImageSequence";
 import { ScrollTrigger } from "gsap/all";
 import Background from "./Background";
+import LastSection from "./LastSection";
 
 const Home = () => {
   const canvas1Wrapper = useRef<HTMLDivElement>(null);
@@ -78,8 +79,8 @@ const Home = () => {
         start: "top top",
         endTrigger: "#beers-section-content",
         end: "50% center",
-        pin: canvas1.current,
         pinType: "transform",
+        pin: canvas1.current,
       });
     },
 
@@ -96,7 +97,7 @@ const Home = () => {
             ref={canvas1Wrapper}
             className="pointer-events-none absolute z-10 h-screen w-full"
           >
-            <div ref={canvas1} className="grid size-full place-items-center">
+            <div ref={canvas1} className="relative size-full">
               <Model />
             </div>
           </div>
@@ -134,6 +135,7 @@ const Home = () => {
       </div>
 
       <ImageSequence />
+      <LastSection />
     </>
   );
 };

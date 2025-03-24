@@ -1,21 +1,23 @@
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { useRef } from "react";
-import LineStaggerIn from "../../components/animations/LineStaggerIn";
-import HorizontalScaleOut from "../../components/animations/HorizontalScaleOut";
 import RoundedText from "../../components/svg/RoundedText";
 import { FaArrowDown } from "react-icons/fa6";
-import FadeUp from "../../components/animations/FadeUp";
+import {
+  LineStaggerRoot,
+  LineStaggerLine,
+} from "../../components/animations/LineStagger";
+import HorizontalScale from "../../components/animations/HorizontalScale";
+import Fade from "../../components/animations/Fade";
 
 const Hero = () => {
   const wrapper = useRef<HTMLDivElement>(null);
-  const heading = useRef<HTMLHeadingElement>(null);
   const line = useRef<HTMLDivElement>(null);
   const para = useRef<HTMLParagraphElement>(null);
 
   useGSAP(
     () => {
-      const headingLines = heading.current!.querySelectorAll(".line");
+      const headingLines = wrapper.current!.querySelectorAll("#hero-h1 .line");
       const elems = [...headingLines, line.current, para.current];
       const offset = [-580, -380, -180, -120, -60];
 
@@ -38,62 +40,63 @@ const Hero = () => {
       ref={wrapper}
       className="relative flex h-screen w-full flex-col items-center justify-center gap-[1vw] pt-[1.1vw] text-center"
     >
-      <h1
-        ref={heading}
+      <LineStaggerRoot
+        id="hero-h1"
+        as="h1"
+        gsapTo={{ delay: 0.5 }}
         className="max-w-[75vw] text-[9.5625vw] uppercase leading-[8.125vw]"
       >
-        <LineStaggerIn className="line">Classic craft beers,</LineStaggerIn>
-        <LineStaggerIn className="line">brewed without</LineStaggerIn>
-        <LineStaggerIn className="line relative z-10">fuss</LineStaggerIn>
-      </h1>
+        <LineStaggerLine>Classic craft beers,</LineStaggerLine>
+        <LineStaggerLine>brewed without</LineStaggerLine>
+        <LineStaggerLine className="relative z-10">fuss</LineStaggerLine>
+      </LineStaggerRoot>
 
-      <HorizontalScaleOut
-        config={{ delay: 0.75, duration: 1, ease: "power2.out" }}
-        className="h-px w-full max-w-[600px]"
-      >
-        <div ref={line}>
-          <svg
-            viewBox="0 0 800 1"
-            className="w-full"
-            preserveAspectRatio="none"
+      <div ref={line} className="h-1 w-full max-w-[550px]">
+        <HorizontalScale
+          as="svg"
+          gsapTo={{ delay: 0.75 }}
+          viewBox="0 0 800 1"
+          className="h-px w-full"
+          preserveAspectRatio="none"
+        >
+          <line
+            x1="0"
+            y1="50%"
+            x2="100%"
+            y2="50%"
+            strokeWidth="1"
+            stroke="currentColor"
+            strokeDasharray="3,3"
           >
-            <line
-              x1="0"
-              y1="50%"
-              x2="100%"
-              y2="50%"
-              strokeWidth="1"
-              stroke="currentColor"
-              strokeDasharray="3,3"
-            >
-              <animate
-                attributeName="stroke-dashoffset"
-                from={0}
-                to={100}
-                dur={15}
-                repeatCount="indefinite"
-              />
-            </line>
-          </svg>
-        </div>
-      </HorizontalScaleOut>
+            <animate
+              attributeName="stroke-dashoffset"
+              from={0}
+              to={100}
+              dur={15}
+              repeatCount="indefinite"
+            />
+          </line>
+        </HorizontalScale>
+      </div>
 
-      <p
-        ref={para}
-        className="z-10 text-[2.6875vw] uppercase leading-[3.125vw]"
-      >
-        <LineStaggerIn config={{ stagger: 0.02 }}>
-          Pure, honest and damn delicious
-        </LineStaggerIn>
-      </p>
+      <div ref={para} className="z-10">
+        <LineStaggerRoot
+          as="p"
+          gsapTo={{ delay: 0.5 }}
+          className="text-[2.6875vw] uppercase leading-[3.125vw]"
+        >
+          <LineStaggerLine>Pure, honest and damn delicious</LineStaggerLine>
+        </LineStaggerRoot>
+      </div>
 
-      <FadeUp
-        config={{ delay: 1 }}
+      <Fade
+        direction="up"
+        gsapTo={{ delay: 1, duration: 0.5 }}
         className="absolute left-[6vw] top-[57%] grid size-[7.75vw] -translate-y-1/2 place-items-center"
       >
         <RoundedText className="rotate-anim absolute inset-0" />
         <FaArrowDown className="text-[2vw]" />
-      </FadeUp>
+      </Fade>
     </section>
   );
 };

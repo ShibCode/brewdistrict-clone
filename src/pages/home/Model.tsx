@@ -44,7 +44,7 @@ const ModelWrapper = () => {
   return (
     <Canvas
       gl={{ toneMapping: THREE.ACESFilmicToneMapping }}
-      className="!pointer-events-none !absolute !h-[100vw]"
+      className="!pointer-events-none !absolute left-1/2 top-1/2 !h-[100vw] -translate-x-1/2 -translate-y-1/2"
     >
       <directionalLight position={[4, -0.5, 0.5]} intensity={4} color={color} />
       <directionalLight position={[-3, -0.5, 1]} intensity={4} color={color} />
@@ -204,7 +204,10 @@ export function Model(props: JSX.IntrinsicElements["group"]) {
       modelChangePositionY.current +
       initialPosition.current.y;
 
-    const rotation = { x: leva.x, y: leva.y, z: leva.z };
+    const rotation = { x: 0, y: 0, z: 0 };
+    rotation.x += leva.x;
+    rotation.y += leva.y;
+    rotation.z += leva.z;
 
     // hero section -> beers slider section
     rotation.x += phase1Rotation.current.x;
@@ -232,7 +235,13 @@ export function Model(props: JSX.IntrinsicElements["group"]) {
   });
 
   return (
-    <group ref={group} {...props} scale={0.175} dispose={null}>
+    <group
+      ref={group}
+      {...props}
+      scale={0.175}
+      dispose={null}
+      rotation-order="XZY"
+    >
       <group>
         <group
           name="groep_brewdistrict_blikjes"

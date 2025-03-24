@@ -1,8 +1,8 @@
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
-import { useRef } from "react";
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa6";
-import { models, useModel } from "../../context/ModelProvider";
+import { modelDetails, models, useModel } from "../../context/ModelProvider";
+import Fade from "../../components/animations/Fade";
 
 interface InfoCardProps {
   label: string;
@@ -12,27 +12,28 @@ interface InfoCardProps {
 const Beers = () => {
   const { activeModel, nextModel, previousModel } = useModel();
 
-  const beerContainer = useRef<HTMLDivElement | null>(null);
+  useGSAP(
+    () => {
+      const scrollTrigger = {
+        trigger: "#hero-section",
+        start: "top top",
+        endTrigger: "#beers-section",
+        end: "bottom bottom",
+        scrub: true,
+      };
 
-  useGSAP(() => {
-    const scrollTrigger = {
-      trigger: "#hero-section",
-      start: "top top",
-      endTrigger: "#beers-section",
-      end: "bottom bottom",
-      scrub: true,
-    };
-
-    gsap.fromTo(
-      beerContainer.current,
-      { y: "-21vw" },
-      {
-        y: 0,
-        ease: "none",
-        scrollTrigger,
-      },
-    );
-  }, []);
+      gsap.fromTo(
+        "#beer-container",
+        { y: "-21vw" },
+        {
+          y: 0,
+          ease: "none",
+          scrollTrigger,
+        },
+      );
+    },
+    { dependencies: [], revertOnUpdate: true },
+  );
 
   return (
     <section
@@ -42,31 +43,33 @@ const Beers = () => {
       <div id="beers-section-content" className="flex flex-col items-center">
         <div className="flex gap-[6vw]">
           <div className="flex w-full flex-col items-end justify-between gap-[3vw] pb-[2vw] pt-[1vw] text-end">
-            <div className="flex flex-col gap-[1vw] uppercase">
+            <Fade className="flex flex-col gap-[1vw] uppercase">
               <h2 className="text-[1.125vw] uppercase leading-[1.125vw]">
                 Discover Our Beers
               </h2>
 
               <h3 className="max-w-[25vw] font-roseford text-[4vw] leading-[4.375vw] text-secondary">
-                Imperial Stout
+                {modelDetails[activeModel].name}
               </h3>
               <p className="text-[1.5vw] leading-[1.75vw]">
                 ALC. 10% Vol - 330 ML
               </p>
-            </div>
+            </Fade>
 
-            <div className="space-y-[0.75vw] uppercase">
+            <Fade className="space-y-[0.75vw] uppercase">
               <h4 className="text-[0.875vw] leading-[0.875vw]">Ingredients</h4>
               <p className="max-w-[16vw] text-[1.5vw] leading-[1.75vw] text-secondary">
                 Water, Malt (Pale malt, Cara120, wheat, mroast (650-1300),
                 biscuit), Hop (pacific gem), Yeast, Alcohol 10%
               </p>
-            </div>
+            </Fade>
           </div>
 
-          <div
-            ref={beerContainer}
-            className="relative h-[33vw] w-[20vw] shrink-0 p-5"
+          <Fade
+            wrapperId="beer-container"
+            direction="down"
+            trigger={{ trigger: "#beers-section", start: "top bottom" }}
+            className="relative h-[33vw] w-[20vw] shrink-0"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -107,10 +110,10 @@ const Beers = () => {
                 />
               </rect>
             </svg>
-          </div>
+          </Fade>
 
           <div className="flex w-full flex-col justify-between pb-[2vw] pt-[1vw]">
-            <div className="space-y-[1.25vw]">
+            <Fade className="space-y-[1.25vw]">
               <h4 className="text-[1.125vw] uppercase leading-[1.125vw]">
                 Explore the dark depths of Imperial Stout
               </h4>
@@ -120,9 +123,9 @@ const Beers = () => {
                 your palette. Pure and honest. Damn delicious. Something about
                 the little things in life…
               </p>
-            </div>
+            </Fade>
 
-            <div className="flex w-full max-w-[350px] flex-col">
+            <Fade className="flex w-full max-w-[350px] flex-col">
               <div className="grid grid-cols-2 gap-10 uppercase">
                 <InfoCard label="Storage Advice" value="8°C - 10°C" />
                 <InfoCard label="Color" value="130 EBC" />
@@ -137,7 +140,7 @@ const Beers = () => {
               <button className="font-freudian mt-[1.5vw] h-[2.64vw] rounded-full bg-[#7ECF86] px-[1.59vw] text-[0.859vw] text-black transition-all duration-300 hover:bg-white">
                 ORDER NOW
               </button>
-            </div>
+            </Fade>
           </div>
         </div>
       </div>

@@ -1,7 +1,7 @@
 const Footer = () => {
   return (
-    <footer className="flex justify-center">
-      <div className="flex w-[90%] max-w-[1280px] justify-between py-8">
+    <footer className="mx-auto flex max-w-[64vw] justify-center">
+      <div className="flex w-full justify-between py-[1.625vw]">
         <div className="flex gap-[0.5em] font-eczar text-[0.75vw]">
           <p className="opacity-40">
             © 2025 BrewDistrict24 - All rights reserved

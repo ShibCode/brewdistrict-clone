@@ -2,6 +2,7 @@ import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { useRef, useState } from "react";
 import { FiArrowUpRight } from "react-icons/fi";
+import Fade from "../../components/animations/Fade";
 
 const Newsletter = () => {
   const [email, setEmail] = useState("");
@@ -37,10 +38,10 @@ const Newsletter = () => {
     <section
       ref={wrapper}
       id="newsletter-section"
-      className="flex justify-center pb-[13vw] pt-[16vw]"
+      className="mx-auto flex max-w-[64vw] justify-center pb-[13vw] pt-[16vw]"
     >
       <div ref={content} className="flex w-full">
-        <div className="flex w-full justify-end pr-[4.5vw]">
+        <Fade wrapperClassName="w-1/2 pr-[4.5vw]">
           <h2 className="max-w-[7em] font-roseford text-[4vw] uppercase leading-[4.375vw]">
             Become part
             <span className="box-content inline-block max-w-[3em] -translate-y-[0.8em] px-[2.25em] text-center font-sans text-[0.875vw] leading-[0.875vw]">
@@ -48,9 +49,13 @@ const Newsletter = () => {
             </span>
             of our hood
           </h2>
-        </div>
+        </Fade>
 
-        <div className="flex w-full flex-col gap-[1.25vw] pt-[1vw]">
+        <Fade
+          gsapTo={{ delay: 0.15 }}
+          wrapperClassName="w-1/2 pt-[1vw]"
+          className="flex flex-col gap-[1.25vw]"
+        >
           <p className="max-w-[26vw] font-eczar text-[1vw] leading-[1.75vw]">
             Only the absolute pioneers who sign up for our newsletter get a
             front row seat, because at BrewDistrict24 we cherish those who
@@ -72,7 +77,7 @@ const Newsletter = () => {
 
               <button
                 aria-label="Join our newsletter"
-                className="group relative flex size-[2.75vw] items-center justify-center overflow-hidden rounded-full bg-[#7ECF86] text-[1.6vw] text-secondary transition-colors duration-300 hover:bg-[#7ECF86]/70"
+                className="group relative flex size-[2.75vw] shrink-0 items-center justify-center overflow-hidden rounded-full bg-[#7ECF86] text-[1.6vw] text-secondary transition-colors duration-300 hover:bg-[#7ECF86]/70"
               >
                 <div
                   className="absolute flex size-full items-center justify-center transition-all duration-300 group-hover:-translate-y-full group-hover:translate-x-full"
@@ -102,7 +107,7 @@ const Newsletter = () => {
               apply.
             </p>
           </div>
-        </div>
+        </Fade>
       </div>
     </section>
   );

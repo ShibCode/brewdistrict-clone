@@ -10,6 +10,17 @@ import { getRandomElement } from "../lib/utils";
 
 export const models = ["Blond", "Stout", "Ipa", "Neipa"] as const;
 
+type ModelDetail = {
+  name: string;
+};
+
+export const modelDetails: Record<ModelType, ModelDetail> = {
+  Stout: { name: "Imperial Stout" },
+  Ipa: { name: "IPA" },
+  Blond: { name: "American Blonde" },
+  Neipa: { name: "Neipa" },
+};
+
 export const modelColors: Record<
   ModelType,
   { primary: string; secondary: string }
