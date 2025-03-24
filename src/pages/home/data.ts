@@ -1,4 +1,46 @@
-[
+import Cup from "../../components/svg/Cup";
+import Cart from "../../components/svg/Cart";
+
+export const locations = [
+  {
+    name: "Proeflokaal Van Horst",
+    location: "Horst",
+    icon: Cup,
+  },
+  {
+    name: "Onze Bierwinkel",
+    location: "Nijmegen",
+    icon: Cart,
+  },
+  {
+    name: "Tierney's Irish Pubs",
+    location: "Nijmegen",
+    icon: Cup,
+  },
+  {
+    name: "Nico De Witt Plus",
+    location: "Beek",
+    icon: Cart,
+  },
+  {
+    name: "Grut Eten & Drinken",
+    location: "Nijmegen",
+    icon: Cup,
+  },
+  {
+    name: "Cafe Samson",
+    location: "Nijmegen",
+    icon: Cup,
+  },
+  {
+    name: "Cafe De Deut",
+    location: "Nijmegen",
+    icon: Cup,
+  },
+  { name: "De Mariaschool", location: "Nijmegen", icon: Cup },
+];
+
+export const imageSequence = [
   "https://brewdistrict24.com/gfx/sequence%20images/cans-v3/brewdistrict_scroll_blikjes0001.jpg",
   "https://brewdistrict24.com/gfx/sequence%20images/cans-v3/brewdistrict_scroll_blikjes0002.jpg",
   "https://brewdistrict24.com/gfx/sequence%20images/cans-v3/brewdistrict_scroll_blikjes0003.jpg",
@@ -198,5 +240,5 @@
   "https://brewdistrict24.com/gfx/sequence%20images/cans-v3/brewdistrict_scroll_blikjes0197.jpg",
   "https://brewdistrict24.com/gfx/sequence%20images/cans-v3/brewdistrict_scroll_blikjes0198.jpg",
   "https://brewdistrict24.com/gfx/sequence%20images/cans-v3/brewdistrict_scroll_blikjes0199.jpg",
-  "https://brewdistrict24.com/gfx/sequence%20images/cans-v3/brewdistrict_scroll_blikjes0200.jpg"
-]
+  "https://brewdistrict24.com/gfx/sequence%20images/cans-v3/brewdistrict_scroll_blikjes0200.jpg",
+];

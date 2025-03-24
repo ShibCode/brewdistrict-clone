@@ -8,7 +8,7 @@ import React, {
 } from "react";
 import { getRandomElement } from "../lib/utils";
 
-export const models = ["Blond", "Stout", "Ipa", "Neipa"] as const;
+export const models = ["Ipa", "Blond", "Stout", "Neipa"] as const;
 
 type ModelDetail = {
   name: string;

@@ -1,5 +1,5 @@
 import { useRef } from "react";
-import { useGLTF } from "@react-three/drei";
+import { Environment, useGLTF } from "@react-three/drei";
 import { Canvas, useFrame } from "@react-three/fiber";
 import { GLTF } from "three-stdlib";
 import * as THREE from "three";
@@ -39,7 +39,9 @@ type GLTFResult = GLTF & {
 };
 
 const ModelWrapper = () => {
-  const { color } = useControls({ color: "#ffe6e7" });
+  const { color } = useControls({
+    color: "#ffe6e7",
+  });
 
   return (
     <Canvas
@@ -191,7 +193,23 @@ export function Model(props: JSX.IntrinsicElements["group"]) {
     x: { min: 0, max: Math.PI * 2, value: 0 },
     y: { min: 0, max: Math.PI * 2, value: 0 },
     z: { min: 0, max: Math.PI * 2, value: 0 },
+    metalnessHead: { min: 0, max: 1, value: 0.7 },
+    roughnessHead: { min: 0, max: 1, value: 0.32 },
+    metalnessBody: { min: 0, max: 1, value: 0.6 },
+    roughnessBody: { min: 0, max: 1, value: 0.5 },
   });
+
+  // materials["Mat.1"].metalness = leva.metalnessHead;
+  // materials["Mat.1"].roughness = leva.roughnessHead;
+
+  // materials["Ipa"].metalness = leva.metalnessBody;
+  // materials["Ipa"].roughness = leva.roughnessBody;
+  // materials["Blond"].metalness = leva.metalnessBody;
+  // materials["Blond"].roughness = leva.roughnessBody;
+  // materials["Stout"].metalness = leva.metalnessBody;
+  // materials["Stout"].roughness = leva.roughnessBody;
+  // materials["Neipa"].metalness = leva.metalnessBody;
+  // materials["Neipa"].roughness = leva.roughnessBody;
 
   useFrame(({ clock }) => {
     if (!group.current) return;

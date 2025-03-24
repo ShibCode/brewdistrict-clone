@@ -3,14 +3,12 @@ import gsap from "gsap";
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa6";
 import { modelDetails, models, useModel } from "../../context/ModelProvider";
 import Fade from "../../components/animations/Fade";
-
-interface InfoCardProps {
-  label: string;
-  value: string;
-}
+import IconButton from "../../components/ui/IconButton";
+import { useEffect } from "react";
+import usePrevious from "../../hooks/usePrevious";
 
 const Beers = () => {
-  const { activeModel, nextModel, previousModel } = useModel();
+  const { activeModel } = useModel();
 
   useGSAP(
     () => {
@@ -145,36 +143,98 @@ const Beers = () => {
         </div>
       </div>
 
-      <div className="flex flex-col items-center gap-[0.5vw]">
-        <p>
-          {models.indexOf(activeModel) + 1}/{models.length}
-        </p>
-
-        <div className="flex w-[20vw] items-center justify-between px-[0.5vw]">
-          <button
-            className="grid aspect-square w-[2.5vw] place-items-center rounded-full border"
-            onClick={previousModel}
-          >
-            <FaArrowLeft className="size-1/2" />
-          </button>
-
-          <span className="font-roseford text-[1.25vw] uppercase">
-            {activeModel}
-          </span>
-
-          <button
-            className="grid aspect-square w-[2.5vw] place-items-center rounded-full border"
-            onClick={nextModel}
-          >
-            <FaArrowRight className="size-1/2" />
-          </button>
-        </div>
-      </div>
+      <ModelSlider />
     </section>
   );
 };
 
 export default Beers;
+
+const ModelSlider = () => {
+  const { activeModel, nextModel, previousModel } = useModel();
+
+  const activeIndex = models.indexOf(activeModel);
+  const previousIndex = usePrevious(activeIndex) || 0;
+
+  useEffect(() => {
+    const slides = document.querySelectorAll(".beer-slide");
+
+    const difference = Math.abs(activeIndex - previousIndex);
+
+    if (
+      (activeIndex > previousIndex && difference === 1) ||
+      (previousIndex > activeIndex && difference > 1)
+    ) {
+      gsap.fromTo(slides, { xPercent: 0 }, { xPercent: -100 });
+    } else gsap.fromTo(slides, { xPercent: -200 }, { xPercent: -100 });
+  }, [activeIndex]);
+
+  return (
+    <div className="flex flex-col items-center gap-[0.3vw]">
+      <p>
+        {activeIndex + 1}/{models.length}
+      </p>
+
+      <div className="flex w-[20vw] items-center justify-between px-[0.5vw]">
+        <IconButton
+          gap={1}
+          className="w-[2.5vw] border border-primary hover:border-model"
+          onClick={previousModel}
+        >
+          <FaArrowLeft className="size-1/2" />
+        </IconButton>
+
+        <div
+          style={{
+            maskImage:
+              "linear-gradient(90deg, rgba(0, 0, 0, 0) 0%, #000000 3.125vw, #000000 calc(100% - 3.125vw), rgba(0, 0, 0, 0) 100%)",
+          }}
+          className="flex w-full overflow-hidden"
+        >
+          <div className="beer-slide flex h-[2.5vw] w-full shrink-0 items-center justify-center text-center font-roseford text-[1.25vw] uppercase leading-none">
+            <span className="w-[7em]">
+              {
+                modelDetails[
+                  models[gsap.utils.wrap(0, models.length, activeIndex - 1)]
+                ].name
+              }
+            </span>
+          </div>
+
+          <div className="beer-slide flex h-[2.5vw] w-full shrink-0 items-center justify-center text-center font-roseford text-[1.25vw] uppercase leading-none">
+            <span className="w-[7em]">
+              {modelDetails[models[activeIndex]].name}
+            </span>
+          </div>
+
+          <div className="beer-slide flex h-[2.5vw] w-full shrink-0 items-center justify-center text-center font-roseford text-[1.25vw] uppercase leading-none">
+            <span className="w-[7em]">
+              {
+                modelDetails[
+                  models[gsap.utils.wrap(0, models.length, activeIndex + 1)]
+                ].name
+              }
+            </span>
+          </div>
+        </div>
+
+        <IconButton
+          direction="right"
+          gap={1}
+          className="w-[2.5vw] border border-primary hover:border-model"
+          onClick={nextModel}
+        >
+          <FaArrowRight className="size-1/2" />
+        </IconButton>
+      </div>
+    </div>
+  );
+};
+
+interface InfoCardProps {
+  label: string;
+  value: string;
+}
 
 const InfoCard = ({ label, value }: InfoCardProps) => {
   return (

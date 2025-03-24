@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef } from "react";
-import imagesSrc from "./images.json";
+import { imageSequence as imagesSrc } from "./data";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 
@@ -100,10 +100,7 @@ const ImageSequence = () => {
   );
 
   return (
-    <canvas
-      ref={canvasRef}
-      className="relative h-screen w-full bg-secondary"
-    ></canvas>
+    <canvas ref={canvasRef} className="relative h-screen w-full bg-secondary" />
   );
 };
 
