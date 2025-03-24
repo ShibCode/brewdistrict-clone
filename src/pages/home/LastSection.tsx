@@ -33,8 +33,6 @@ const LastSection = () => {
   const loop = useRef<number | null>(null);
 
   const lastPointerX = useRef<number | null>(null);
-  const lastVelocity = useRef<number>(0);
-  const lastTime = useRef<number>(0);
 
   const handlePointerDown = (e: React.PointerEvent<HTMLDivElement>) => {
     lastPointerX.current = e.clientX;
