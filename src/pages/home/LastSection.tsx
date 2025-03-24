@@ -33,10 +33,11 @@ const LastSection = () => {
   const loop = useRef<number | null>(null);
 
   const lastPointerX = useRef<number | null>(null);
+  const lastVelocity = useRef<number>(0);
+  const lastTime = useRef<number>(0);
 
   const handlePointerDown = (e: React.PointerEvent<HTMLDivElement>) => {
     lastPointerX.current = e.clientX;
-    document.body.style.cursor = "grabbing !important";
   };
 
   useEffect(() => {
@@ -60,11 +61,20 @@ const LastSection = () => {
     const handlePointerMove = (e: PointerEvent) => {
       if (lastPointerX.current === null) return;
 
-      const totalDistance = (lastPointerX.current - e.clientX) * 0.01;
+      const acceleration = gsap.utils.clamp(
+        0.025,
+        0.05,
+        Number(document.body.getAttribute("data-acceleration")),
+      );
+
+      const totalDistance = (lastPointerX.current - e.clientX) * acceleration;
+
+      if (isNaN(totalDistance) || !isFinite(totalDistance)) return;
+
       let moved = 0;
 
       const innerTick = () => {
-        const distance = (totalDistance - moved) * 0.1;
+        const distance = (totalDistance - moved) * 0.05;
         moveMarquee(distance);
         moved += distance;
 
