@@ -3,12 +3,15 @@ import App from "./App.tsx";
 import "./index.css";
 import { Leva } from "leva";
 import ModelProvider from "./context/ModelProvider.tsx";
+import AppProvider from "./context/AppProvider.tsx";
 
 createRoot(document.getElementById("root")!).render(
   <>
     <Leva hidden />
-    <ModelProvider>
-      <App />
-    </ModelProvider>
+    <AppProvider>
+      <ModelProvider>
+        <App />
+      </ModelProvider>
+    </AppProvider>
   </>,
 );

@@ -1,9 +1,16 @@
+import { useRef } from "react";
 import Bolt from "../components/svg/Bolt";
 import { useModel } from "../context/ModelProvider";
 import useStageEffect from "../hooks/useStageEffect";
+import { useGSAP } from "@gsap/react";
+import gsap from "gsap";
+import { useApp } from "../context/AppProvider";
 
 const StickyFooter = () => {
+  const { isStarted } = useApp();
   const { activeModel } = useModel();
+
+  const wrapper = useRef<HTMLDivElement>(null);
 
   useStageEffect(
     () => {},
@@ -17,8 +24,34 @@ const StickyFooter = () => {
     [activeModel],
   );
 
+  useGSAP(
+    () => {
+      if (!isStarted) return;
+
+      gsap.fromTo(
+        wrapper.current,
+        { color: "white" },
+        {
+          color: "black",
+          duration: 0.25,
+          ease: "none",
+          scrollTrigger: {
+            trigger: "#about-section",
+            start: () => `top 100%-=${window.innerWidth * 0.0225}px`,
+            end: () => `bottom 100%-=${window.innerWidth * 0.0225}px`,
+            toggleActions: "play reverse play reverse",
+          },
+        },
+      );
+    },
+    { dependencies: [isStarted], revertOnUpdate: true },
+  );
+
   return (
-    <div className="fixed bottom-0 z-50 flex w-full justify-between px-[1.7vw] pb-[1.5vw]">
+    <div
+      ref={wrapper}
+      className="fixed bottom-0 z-30 flex w-full justify-between px-[1.7vw] pb-[1.5vw]"
+    >
       <div className="flex gap-[1.25vw]">
         <div className="bolt">
           <Bolt className="w-[6.25vw] text-model transition-colors duration-300" />

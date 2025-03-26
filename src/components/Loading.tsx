@@ -1,12 +1,13 @@
 import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { modelColors, useModel } from "../context/ModelProvider";
+import { useApp } from "../context/AppProvider";
 
-interface LoadingProps {
-  start: () => void;
-}
+const Loading = () => {
+  const { setIsStarted } = useApp();
 
-const Loading = ({ start }: LoadingProps) => {
+  const start = () => setIsStarted(true);
+
   const { activeModel } = useModel();
 
   const blackScreen = useRef<HTMLDivElement>(null);
@@ -27,7 +28,7 @@ const Loading = ({ start }: LoadingProps) => {
 
   return (
     <>
-      <div ref={blackScreen} className="absolute inset-0 z-10 bg-secondary" />
+      <div ref={blackScreen} className="absolute inset-0 z-40 bg-secondary" />
 
       <div
         style={{ background: modelColors[activeModel].primary }}
