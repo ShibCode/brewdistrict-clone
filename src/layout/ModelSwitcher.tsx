@@ -16,8 +16,10 @@ const ModelSwitcher = () => {
       ref={button}
       onClick={nextModel}
       style={{ opacity: 0 }}
-      className="fixed right-0 top-1/2 z-50 flex aspect-square w-[12.5em] -translate-y-1/2 translate-x-[60%] flex-col items-center justify-center rounded-full bg-model pr-[7em] text-[1.25vw] transition-colors duration-300 xl:text-[1vw]"
+      className="group fixed right-0 top-1/2 z-50 flex aspect-square w-[12.5em] -translate-y-1/2 translate-x-[58%] flex-col items-center justify-center rounded-full pl-[0.4vw] pr-[7em] text-[1.25vw] transition-colors duration-300 xl:text-[1vw]"
     >
+      <div className="absolute inset-0 rounded-full bg-model transition-all duration-300 group-hover:-translate-x-[4%]" />
+
       <div className="relative overflow-hidden">
         <div className="translate-anim absolute inset-0 flex justify-end">
           <div className="grid size-full shrink-0 place-items-center">

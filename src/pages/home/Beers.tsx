@@ -1,15 +1,19 @@
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa6";
-import { modelDetails, models, useModel } from "../../context/ModelProvider";
+import {
+  modelDetails,
+  models,
+  ModelType,
+  useModel,
+} from "../../context/ModelProvider";
 import Fade from "../../components/animations/Fade";
 import IconButton from "../../components/ui/IconButton";
-import { useEffect } from "react";
+import { cloneElement, useRef } from "react";
 import usePrevious from "../../hooks/usePrevious";
+import useStageEffect from "../../hooks/useStageEffect";
 
 const Beers = () => {
-  const { activeModel } = useModel();
-
   useGSAP(
     () => {
       const scrollTrigger = {
@@ -41,25 +45,50 @@ const Beers = () => {
       <div id="beers-section-content" className="flex flex-col items-center">
         <div className="flex gap-[6vw]">
           <div className="flex w-full flex-col items-end justify-between gap-[3vw] pb-[2vw] pt-[1vw] text-end">
-            <Fade className="flex flex-col gap-[1vw] uppercase">
-              <h2 className="text-[1.125vw] uppercase leading-[1.125vw]">
-                Discover Our Beers
-              </h2>
+            <Fade className="flex w-[25vw] flex-col gap-[1vw] uppercase">
+              <SlideTransition
+                inFrom={(dir) => ({ x: 30 * dir, opacity: 0 })}
+                inTo={() => ({ x: 0, opacity: 1, duration: 0.25, delay: 0.63 })}
+                outFrom={() => ({ x: 0, opacity: 1 })}
+                outTo={(dir) => ({ x: -30 * dir, opacity: 0, duration: 0.25 })}
+                className="overflow-visible"
+              >
+                {({ activeModel }) => (
+                  <div>
+                    <h2 className="text-[1.125vw] uppercase leading-[1.125vw]">
+                      Discover Our Beers
+                    </h2>
 
-              <h3 className="max-w-[25vw] font-roseford text-[4vw] leading-[4.375vw] text-secondary">
-                {modelDetails[activeModel].name}
-              </h3>
-              <p className="text-[1.5vw] leading-[1.75vw]">
-                ALC. 10% Vol - 330 ML
-              </p>
+                    <h3 className="font-roseford text-[4vw] leading-[4.375vw] text-secondary">
+                      {modelDetails[activeModel].name}
+                    </h3>
+                    <p className="text-[1.5vw] leading-[1.75vw]">
+                      ALC. 10% Vol - 330 ML
+                    </p>
+                  </div>
+                )}
+              </SlideTransition>
             </Fade>
 
-            <Fade className="space-y-[0.75vw] uppercase">
-              <h4 className="text-[0.875vw] leading-[0.875vw]">Ingredients</h4>
-              <p className="max-w-[16vw] text-[1.5vw] leading-[1.75vw] text-secondary">
-                Water, Malt (Pale malt, Cara120, wheat, mroast (650-1300),
-                biscuit), Hop (pacific gem), Yeast, Alcohol 10%
-              </p>
+            <Fade>
+              <SlideTransition
+                inFrom={(dir) => ({ x: 30 * dir, opacity: 0 })}
+                inTo={() => ({ x: 0, opacity: 1, duration: 0.25, delay: 0.67 })}
+                outFrom={() => ({ x: 0, opacity: 1 })}
+                outTo={(dir) => ({ x: -30 * dir, opacity: 0, duration: 0.25 })}
+                className="flex items-end overflow-visible"
+              >
+                {({ activeModel }) => (
+                  <div className="space-y-[0.75vw] uppercase">
+                    <h4 className="text-[0.875vw] leading-[0.875vw]">
+                      Ingredients
+                    </h4>
+                    <p className="max-w-[16vw] text-[1.5vw] leading-[1.75vw] text-secondary">
+                      {modelDetails[activeModel].ingredients}
+                    </p>
+                  </div>
+                )}
+              </SlideTransition>
             </Fade>
           </div>
 
@@ -111,33 +140,66 @@ const Beers = () => {
           </Fade>
 
           <div className="flex w-full flex-col justify-between pb-[2vw] pt-[1vw]">
-            <Fade className="space-y-[1.25vw]">
-              <h4 className="text-[1.125vw] uppercase leading-[1.125vw]">
-                Explore the dark depths of Imperial Stout
-              </h4>
-              <p className="max-w-[26vw] font-eczar text-[1vw] leading-[1.75vw] text-secondary">
-                Is it still raining? No worries. Just take another deep dive
-                into this full bodied-beer which delicately hits every side of
-                your palette. Pure and honest. Damn delicious. Something about
-                the little things in life…
-              </p>
+            <Fade>
+              <SlideTransition
+                inFrom={(dir) => ({ x: 30 * dir, opacity: 0 })}
+                inTo={() => ({ x: 0, opacity: 1, duration: 0.25, delay: 0.71 })}
+                outFrom={() => ({ x: 0, opacity: 1 })}
+                outTo={(dir) => ({ x: -30 * dir, opacity: 0, duration: 0.25 })}
+                className="overflow-visible"
+              >
+                {({ activeModel }) => (
+                  <div className="space-y-[1.25vw]">
+                    <h4 className="text-[1.125vw] uppercase leading-[1.125vw]">
+                      {modelDetails[activeModel].slogan}
+                    </h4>
+                    <p className="max-w-[26vw] font-eczar text-[1vw] leading-[1.75vw] text-secondary">
+                      {modelDetails[activeModel].description}
+                    </p>
+                  </div>
+                )}
+              </SlideTransition>
             </Fade>
 
-            <Fade className="flex w-full max-w-[350px] flex-col">
-              <div className="grid grid-cols-2 gap-10 uppercase">
-                <InfoCard label="Storage Advice" value="8°C - 10°C" />
-                <InfoCard label="Color" value="130 EBC" />
-                <InfoCard label="Calories" value="160" />
-                <InfoCard label="Bitterness" value="21 IBU" />
-              </div>
+            <Fade className="w-full max-w-[350px]">
+              <SlideTransition
+                inFrom={(dir) => ({ x: 30 * dir, opacity: 0 })}
+                inTo={() => ({ x: 0, opacity: 1, duration: 0.25, delay: 0.75 })}
+                outFrom={() => ({ x: 0, opacity: 1 })}
+                outTo={(dir) => ({ x: -30 * dir, opacity: 0, duration: 0.25 })}
+                className="overflow-visible"
+              >
+                {({ activeModel }) => (
+                  <div className="flex flex-col">
+                    <div className="grid grid-cols-2 gap-[1.5vw] uppercase">
+                      <InfoCard
+                        label="Storage Advice"
+                        value={modelDetails[activeModel].storageAdvice}
+                      />
+                      <InfoCard
+                        label="Color"
+                        value={modelDetails[activeModel].color}
+                      />
+                      <InfoCard
+                        label="Calories"
+                        value={modelDetails[activeModel].calories}
+                      />
+                      <InfoCard
+                        label="Bitterness"
+                        value={modelDetails[activeModel].bitterness}
+                      />
+                    </div>
 
-              <p className="mt-[0.5vw] text-[0.875vw] uppercase leading-[0.875vw] text-secondary">
-                Contains Gluten
-              </p>
+                    <p className="mt-[1vw] text-[0.875vw] uppercase leading-[0.875vw] text-secondary">
+                      Contains Gluten
+                    </p>
 
-              <button className="font-freudian mt-[1.5vw] h-[2.64vw] rounded-full bg-[#7ECF86] px-[1.59vw] text-[0.859vw] text-black transition-all duration-300 hover:bg-white">
-                ORDER NOW
-              </button>
+                    <button className="font-freudian mt-[1.5vw] h-[2.64vw] rounded-full bg-model px-[1.59vw] text-[0.859vw] text-black transition-all duration-300 hover:bg-white">
+                      ORDER NOW
+                    </button>
+                  </div>
+                )}
+              </SlideTransition>
             </Fade>
           </div>
         </div>
@@ -150,24 +212,148 @@ const Beers = () => {
 
 export default Beers;
 
-const ModelSlider = () => {
-  const { activeModel, nextModel, previousModel } = useModel();
+interface InfoCardProps {
+  label: string;
+  value: string;
+}
+
+const InfoCard = ({ label, value }: InfoCardProps) => {
+  return (
+    <div className="space-y-[0.25vw]">
+      <h4 className="text-[0.875vw] leading-[0.875vw]">{label}</h4>
+      <p className="max-w-[16vw] text-[1.5vw] leading-[1.75vw] text-secondary">
+        {value}
+      </p>
+    </div>
+  );
+};
+
+type ChildrenVariables = {
+  activeIndex: number;
+  activeModel: ModelType;
+};
+
+type SlideTransitionProps = Omit<
+  React.HTMLAttributes<HTMLDivElement>,
+  "children"
+> & {
+  children: ({
+    activeIndex,
+    activeModel,
+  }: ChildrenVariables) => React.ReactElement;
+  inFrom?: (direction: 1 | -1) => gsap.TweenVars;
+  inTo?: (direction: 1 | -1) => gsap.TweenVars;
+  outFrom?: (direction: 1 | -1) => gsap.TweenVars;
+  outTo?: (direction: 1 | -1) => gsap.TweenVars;
+};
+
+const SlideTransition = ({
+  children,
+  className = "",
+  inFrom = (dir) => ({ xPercent: 100 * dir }),
+  inTo = () => ({ xPercent: 0 }),
+  outFrom = () => ({ xPercent: 0 }),
+  outTo = (dir) => ({ xPercent: -100 * dir }),
+  ...props
+}: SlideTransitionProps) => {
+  const { activeModel } = useModel();
 
   const activeIndex = models.indexOf(activeModel);
   const previousIndex = usePrevious(activeIndex) || 0;
 
-  useEffect(() => {
-    const slides = document.querySelectorAll(".beer-slide");
+  const wrapper = useRef<HTMLDivElement>(null);
 
-    const difference = Math.abs(activeIndex - previousIndex);
+  useStageEffect(
+    () => {
+      const slides = wrapper.current?.querySelectorAll(
+        "[data-slide-transition=true]",
+      );
+      if (!slides) return;
 
-    if (
-      (activeIndex > previousIndex && difference === 1) ||
-      (previousIndex > activeIndex && difference > 1)
-    ) {
-      gsap.fromTo(slides, { xPercent: 0 }, { xPercent: -100 });
-    } else gsap.fromTo(slides, { xPercent: -200 }, { xPercent: -100 });
-  }, [activeIndex]);
+      const initial = inFrom(1);
+      gsap.set([slides[0], slides[2]], initial);
+    },
+    () => {
+      const slides = wrapper.current?.querySelectorAll(
+        "[data-slide-transition=true]",
+      );
+
+      if (!slides) return;
+
+      const difference = Math.abs(activeIndex - previousIndex);
+
+      let direction: 1 | -1 = -1;
+
+      if (
+        (activeIndex > previousIndex && difference === 1) ||
+        (previousIndex > activeIndex && difference > 1)
+      ) {
+        direction = 1;
+      }
+
+      const parsedInFrom = inFrom(direction);
+      const parsedInTo = inTo(direction);
+      const parsedOutFrom = outFrom(direction);
+      const parsedOutTo = outTo(direction);
+
+      const slideIn = slides[1];
+      const slideOut = slides[direction === 1 ? 0 : 2];
+      const slideIdle = slides[direction === 1 ? 2 : 0];
+
+      gsap.fromTo(slideIn, parsedInFrom, parsedInTo);
+      gsap.fromTo(slideOut, parsedOutFrom, parsedOutTo);
+      gsap.set(slideIdle, parsedInFrom);
+    },
+    [activeIndex],
+  );
+
+  const addToIndex = (increment: number) =>
+    gsap.utils.wrap(0, models.length, activeIndex + increment);
+
+  return (
+    <div
+      ref={wrapper}
+      className={`relative flex overflow-hidden ${className}`}
+      {...props}
+    >
+      {cloneElement(
+        children({
+          activeIndex: addToIndex(-1),
+          activeModel: models[addToIndex(-1)],
+        }),
+        {
+          "data-slide-transition": true,
+          style: { width: "100%", position: "absolute", pointerEvents: "none" },
+        },
+      )}
+      {cloneElement(
+        children({
+          activeIndex: addToIndex(0),
+          activeModel: models[addToIndex(0)],
+        }),
+        {
+          "data-slide-transition": true,
+          style: { width: "100%" },
+        },
+      )}
+      {cloneElement(
+        children({
+          activeIndex: addToIndex(1),
+          activeModel: models[addToIndex(1)],
+        }),
+        {
+          "data-slide-transition": true,
+          style: { width: "100%", position: "absolute", pointerEvents: "none" },
+        },
+      )}
+    </div>
+  );
+};
+
+const ModelSlider = () => {
+  const { activeModel, nextModel, previousModel } = useModel();
+
+  const activeIndex = models.indexOf(activeModel);
 
   return (
     <div className="flex flex-col items-center gap-[0.3vw]">
@@ -184,39 +370,21 @@ const ModelSlider = () => {
           <FaArrowLeft className="size-1/2" />
         </IconButton>
 
-        <div
+        <SlideTransition
           style={{
             maskImage:
               "linear-gradient(90deg, rgba(0, 0, 0, 0) 0%, #000000 3.125vw, #000000 calc(100% - 3.125vw), rgba(0, 0, 0, 0) 100%)",
           }}
-          className="flex w-full overflow-hidden"
+          className="flex-grow"
         >
-          <div className="beer-slide flex h-[2.5vw] w-full shrink-0 items-center justify-center text-center font-roseford text-[1.25vw] uppercase leading-none">
-            <span className="w-[7em]">
-              {
-                modelDetails[
-                  models[gsap.utils.wrap(0, models.length, activeIndex - 1)]
-                ].name
-              }
-            </span>
-          </div>
-
-          <div className="beer-slide flex h-[2.5vw] w-full shrink-0 items-center justify-center text-center font-roseford text-[1.25vw] uppercase leading-none">
-            <span className="w-[7em]">
-              {modelDetails[models[activeIndex]].name}
-            </span>
-          </div>
-
-          <div className="beer-slide flex h-[2.5vw] w-full shrink-0 items-center justify-center text-center font-roseford text-[1.25vw] uppercase leading-none">
-            <span className="w-[7em]">
-              {
-                modelDetails[
-                  models[gsap.utils.wrap(0, models.length, activeIndex + 1)]
-                ].name
-              }
-            </span>
-          </div>
-        </div>
+          {({ activeIndex }) => (
+            <div className="flex h-[2.5vw] w-full items-center justify-center text-center font-roseford text-[1.25vw] uppercase leading-none">
+              <span className="w-[7em]">
+                {modelDetails[models[activeIndex]].name}
+              </span>
+            </div>
+          )}
+        </SlideTransition>
 
         <IconButton
           direction="right"
@@ -227,22 +395,6 @@ const ModelSlider = () => {
           <FaArrowRight className="size-1/2" />
         </IconButton>
       </div>
-    </div>
-  );
-};
-
-interface InfoCardProps {
-  label: string;
-  value: string;
-}
-
-const InfoCard = ({ label, value }: InfoCardProps) => {
-  return (
-    <div className="space-y-[0.25vw]">
-      <h4 className="text-[0.875vw] leading-[0.875vw]">{label}</h4>
-      <p className="max-w-[16vw] text-[1.5vw] leading-[1.75vw] text-secondary">
-        {value}
-      </p>
     </div>
   );
 };

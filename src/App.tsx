@@ -7,6 +7,7 @@ import Lenis from "lenis";
 import Loading from "./components/Loading";
 import Footer from "./layout/Footer";
 import ModelSwitcher from "./layout/ModelSwitcher";
+import StickyFooter from "./layout/StickyFooter";
 
 const App = () => {
   const [isStarted, setIsStarted] = useState(false);
@@ -62,6 +63,7 @@ const App = () => {
   return (
     <>
       <Header />
+      <StickyFooter />
 
       {isStarted ? (
         <>

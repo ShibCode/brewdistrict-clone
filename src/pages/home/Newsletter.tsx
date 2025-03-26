@@ -77,8 +77,10 @@ const Newsletter = () => {
 
               <button
                 aria-label="Join our newsletter"
-                className="group relative flex size-[2.75vw] shrink-0 items-center justify-center overflow-hidden rounded-full bg-[#7ECF86] text-[1.6vw] text-secondary transition-colors duration-300 hover:bg-[#7ECF86]/70"
+                className="group relative flex size-[2.75vw] shrink-0 items-center justify-center overflow-hidden rounded-full text-[1.6vw] text-secondary transition-colors duration-300"
               >
+                <div className="absolute inset-0 -z-10 bg-model transition-all duration-300 group-hover:opacity-70" />
+
                 <div
                   className="absolute flex size-full items-center justify-center transition-all duration-300 group-hover:-translate-y-full group-hover:translate-x-full"
                   aria-hidden

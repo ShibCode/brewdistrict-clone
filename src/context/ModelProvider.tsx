@@ -12,13 +12,64 @@ export const models = ["Ipa", "Blond", "Stout", "Neipa"] as const;
 
 type ModelDetail = {
   name: string;
+  ingredients: string;
+  slogan: string;
+  description: string;
+  storageAdvice: string;
+  color: string;
+  calories: string;
+  bitterness: string;
 };
 
 export const modelDetails: Record<ModelType, ModelDetail> = {
-  Stout: { name: "Imperial Stout" },
-  Ipa: { name: "IPA" },
-  Blond: { name: "American Blonde" },
-  Neipa: { name: "Neipa" },
+  Ipa: {
+    name: "IPA",
+    ingredients:
+      "Water, Malt (Pale malt, oats), Hop (Columbus, Chinook, Citra), Yeast, Alcohol 5,5%",
+    slogan: "Savour the pleasant bitterness of India Pale Ale",
+    description:
+      "This craft beer classic is brewed without fuss. With excellent quality water, grain, yeast and (a lot of) hops, we return to the essence of this icon. Our subtle flavours are meant to last, so have a seat, settle down and enjoy the moment.",
+    storageAdvice: "4°C - 6°C",
+    color: "6 EBC",
+    calories: "160",
+    bitterness: "38 IBU",
+  },
+  Blond: {
+    name: "American Blonde",
+    ingredients:
+      "Water, Malt (Pale Malt), Hop (Saaz, Chinook, Idaho7), Yeast, Alcohol 5,5%",
+    slogan: "Get carried away by our American Blonde",
+    description:
+      "Immerse in gezelligheid and allow yourself to be surprised. Open up all of your senses and sit back. It’s time to fully enjoy this moment. Breathe in, breathe out… No form of meditation can compete with this soothing natural blonde.",
+    storageAdvice: "4°C - 6°C",
+    color: "6 EBC",
+    calories: "160",
+    bitterness: "21 IBU",
+  },
+  Stout: {
+    name: "Imperial Stout",
+    ingredients:
+      "Water, Malt (Pale malt. Cara120, wheat, mroast (650-1300), biscuit), Hop (pacific gem), Yeast, Alcohol 10%",
+    slogan: "Explore the dark depths of Imperial Stout",
+    description:
+      "Is it still raining? No worries. Just take another deep dive into this full bodied-beer which delicately hits every side of your palette. Pure and honest. Damn delicious. Something about the little things in life…",
+    storageAdvice: "8°C - 10°C",
+    color: "130 EBC",
+    calories: "160",
+    bitterness: "21 IBU",
+  },
+  Neipa: {
+    name: "Neipa",
+    ingredients:
+      "Water, Malt (Pale Malt, Wheat, Oats), Hop (Sabro, Mosaic), Yeast, Alcohol 6%",
+    slogan: "Experience the smooth fruit sensation of New England Ipa",
+    description:
+      "Connect to a world that is packed with taste. From England to India, all the way up to the American tropics, where its bold flavours originate. Who needs coco rum when you can grab a beer like this?",
+    storageAdvice: "4°C - 6°C",
+    color: "7 EBC",
+    calories: "180",
+    bitterness: "23 IBU",
+  },
 };
 
 export const modelColors: Record<
@@ -41,7 +92,7 @@ export const modelTransitionConfig: Config = {
   ease: "sine.out",
 };
 
-type ModelType = (typeof models)[number];
+export type ModelType = (typeof models)[number];
 
 type ModelContextType = {
   activeModel: ModelType;

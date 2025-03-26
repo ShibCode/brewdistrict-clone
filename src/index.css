@@ -35,6 +35,11 @@
   animation: rotateAnim 15s linear infinite;
 }
 
+.shake {
+  display: inline-block;
+  animation: shake 0.6s ease-in-out;
+}
+
 @keyframes translateAnim {
   0% {
     translate: 0% 0%;
@@ -53,5 +58,41 @@
   }
   100% {
     rotate: -360deg;
+  }
+}
+
+@keyframes shake {
+  0% {
+    transform: translate(0, 0);
+  }
+  10% {
+    transform: translate(-3px, -2px);
+  }
+  20% {
+    transform: translate(3px, 2px);
+  }
+  30% {
+    transform: translate(-2px, 3px);
+  }
+  40% {
+    transform: translate(2px, -3px);
+  }
+  50% {
+    transform: translate(-3px, -2px);
+  }
+  60% {
+    transform: translate(3px, 2px);
+  }
+  70% {
+    transform: translate(-2px, -3px);
+  }
+  80% {
+    transform: translate(2px, 3px);
+  }
+  90% {
+    transform: translate(-3px, 2px);
+  }
+  100% {
+    transform: translate(0, 0);
   }
 }
