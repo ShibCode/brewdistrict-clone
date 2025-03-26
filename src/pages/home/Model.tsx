@@ -1,5 +1,5 @@
 import { useRef } from "react";
-import { Environment, useGLTF } from "@react-three/drei";
+import { useGLTF } from "@react-three/drei";
 import { Canvas, useFrame } from "@react-three/fiber";
 import { GLTF } from "three-stdlib";
 import * as THREE from "three";
