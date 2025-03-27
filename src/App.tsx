@@ -30,13 +30,13 @@ const App = () => {
 
     gsap.ticker.lagSmoothing(0);
 
-    const handlePointerMove = (e: PointerEvent) => {
+    const updateAcceleration = (x: number) => {
       const now = performance.now();
 
       if (lastX.current !== null && lastTime.current !== null) {
         const deltaTime = now - lastTime.current;
 
-        const velocityX = (e.clientX - lastX.current) / deltaTime;
+        const velocityX = (x - lastX.current) / deltaTime;
         const accelerationX = (velocityX - lastVelocityX.current) / deltaTime;
 
         document.body.setAttribute(
@@ -48,12 +48,22 @@ const App = () => {
       }
 
       lastTime.current = now;
-      lastX.current = e.clientX;
+      lastX.current = x;
     };
 
-    window.addEventListener("pointermove", handlePointerMove);
+    const handleTouchMove = (e: TouchEvent) => {
+      updateAcceleration(e.touches[0].clientX);
+    };
+
+    const handleMouseMove = (e: MouseEvent) => {
+      updateAcceleration(e.clientX);
+    };
+
+    window.addEventListener("mousemove", handleMouseMove);
+    window.addEventListener("touchmove", handleTouchMove);
     return () => {
-      window.removeEventListener("pointermove", handlePointerMove);
+      window.removeEventListener("mousemove", handleMouseMove);
+      window.removeEventListener("touchmove", handleTouchMove);
     };
   }, []);
 

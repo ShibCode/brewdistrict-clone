@@ -6,7 +6,7 @@ const LastSection = () => {
   return (
     <section
       id="last-section"
-      className="flex flex-col items-center gap-[2.5vw] pb-[5vw] pt-[13vw]"
+      className="flex flex-col items-center gap-[2.5vw] overflow-hidden pb-[5vw] pt-[13vw]"
     >
       <div className="flex w-full max-w-[64vw]">
         <Fade

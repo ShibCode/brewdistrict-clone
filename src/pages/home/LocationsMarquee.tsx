@@ -30,9 +30,7 @@ const LocationsMarquee = () => {
 
     loop.current = requestAnimationFrame(tick);
 
-    const handlePointerUp = () => (lastPointerX.current = null);
-
-    const handlePointerMove = (e: PointerEvent) => {
+    const slideMarquee = (x: number) => {
       if (lastPointerX.current === null) return;
 
       const acceleration = gsap.utils.clamp(
@@ -41,7 +39,7 @@ const LocationsMarquee = () => {
         Number(document.body.getAttribute("data-acceleration")),
       );
 
-      const totalDistance = (lastPointerX.current - e.clientX) * acceleration;
+      const totalDistance = (lastPointerX.current - x) * acceleration;
 
       if (isNaN(totalDistance) || !isFinite(totalDistance)) return;
 
@@ -59,17 +57,31 @@ const LocationsMarquee = () => {
 
       gsap.ticker.add(innerTick);
 
-      lastPointerX.current = e.clientX;
+      lastPointerX.current = x;
     };
 
-    document.addEventListener("pointerup", handlePointerUp);
-    document.addEventListener("pointermove", handlePointerMove);
+    const cancelSlide = () => (lastPointerX.current = null);
+
+    const handleMouseMove = (e: MouseEvent) => {
+      slideMarquee(e.clientX);
+    };
+
+    const handleTouchMove = (e: TouchEvent) => {
+      slideMarquee(e.touches[0].clientX);
+    };
+
+    document.addEventListener("mousemove", handleMouseMove);
+    document.addEventListener("touchmove", handleTouchMove);
+    document.addEventListener("mouseup", cancelSlide);
+    document.addEventListener("touchend", cancelSlide);
 
     return () => {
       if (loop.current) cancelAnimationFrame(loop.current);
 
-      document.removeEventListener("pointerup", handlePointerUp);
-      document.removeEventListener("pointermove", handlePointerMove);
+      document.removeEventListener("mousemove", handleMouseMove);
+      document.removeEventListener("touchmove", handleTouchMove);
+      document.removeEventListener("mouseup", cancelSlide);
+      document.addEventListener("touchend", cancelSlide);
     };
   }, []);
 
