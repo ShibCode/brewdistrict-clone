@@ -13,6 +13,7 @@ import LastSection from "./LastSection";
 
 const Home = () => {
   const canvas1Wrapper = useRef<HTMLDivElement>(null);
+  const canvas2Wrapper = useRef<HTMLDivElement>(null);
   const canvas1 = useRef<HTMLDivElement>(null);
   const canvas2 = useRef<HTMLDivElement>(null);
 
@@ -52,7 +53,13 @@ const Home = () => {
       });
 
       gsap.to("#block1", {
-        y: () => `${window.innerWidth * 0.225}`,
+        y: () => {
+          let k = 1;
+          if (window.innerWidth < 640) k = 3;
+          else if (window.innerWidth < 1024) k = 2;
+
+          return window.innerWidth * 0.225 * k;
+        },
         ease: "none",
         scrollTrigger: {
           trigger: "#block1",
@@ -79,12 +86,34 @@ const Home = () => {
       });
 
       new ScrollTrigger({
-        trigger: canvas1Wrapper.current,
+        trigger: document.body,
         start: "top top",
-        endTrigger: "#beers-section-content",
-        end: "50% center",
-        pinType: "transform",
-        pin: canvas1.current,
+        endTrigger: "#newsletter-section",
+        end: "center center",
+        pin: canvas2Wrapper.current,
+      });
+
+      gsap.to(canvas1.current, {
+        y: () => {
+          const section = document.querySelector<HTMLDivElement>(
+            "#beers-section-content",
+          );
+
+          if (!section || !canvas1.current || !canvas1Wrapper.current) return 0;
+
+          return (
+            section.offsetTop -
+            canvas1Wrapper.current.offsetTop +
+            (section.clientHeight - canvas1.current.clientHeight) * 0.5
+          );
+        },
+        ease: "none",
+        scrollTrigger: {
+          start: "top top",
+          endTrigger: "#beers-section-content",
+          end: "50% center",
+          scrub: true,
+        },
       });
     },
 
@@ -112,14 +141,10 @@ const Home = () => {
 
         <div style={{ clipPath: "polygon(0 0, 0% 100%, 100% 100%, 100% 0%)" }}>
           <div
-            id="canvas2-scrollarea"
-            style={{ clipPath: "polygon(0 0, 0% 100%, 100% 100%, 100% 0%)" }}
-            className="absolute left-0 top-0 h-full w-full"
+            ref={canvas2Wrapper}
+            className="pointer-events-none absolute top-0 z-10 h-screen w-full opacity-60 blur-[20px]"
           >
-            <div
-              ref={canvas2}
-              className="sticky top-0 z-10 flex h-screen w-full items-center justify-center opacity-60 blur-[20px]"
-            >
+            <div ref={canvas2} className="relative size-full">
               <Model />
             </div>
           </div>

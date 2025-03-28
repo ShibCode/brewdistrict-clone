@@ -169,9 +169,9 @@ export function Model(props: JSX.IntrinsicElements["group"]) {
       // phase 2 rotation
       const phase2BaseTrigger: ScrollTrigger.Vars = {
         trigger: "#about-section",
-        endTrigger: "#canvas2-scrollarea",
-        start: "center center",
-        end: "bottom bottom",
+        start: "top top",
+        endTrigger: "#newsletter-section",
+        end: "center center",
         scrub: 1,
       };
 
