@@ -6,13 +6,13 @@ const LastSection = () => {
   return (
     <section
       id="last-section"
-      className="flex flex-col items-center gap-[2.5vw] overflow-hidden pb-[5vw] pt-[13vw]"
+      className="flex flex-col items-center gap-[6vw] overflow-hidden pb-[12vw] pt-[20vw] sm:gap-[4vw] sm:pb-[5vw] sm:pt-[13vw] lg:gap-[2.5vw]"
     >
-      <div className="flex w-full max-w-[64vw]">
+      <div className="flex w-full max-w-[87vw] flex-col gap-[4vw] sm:max-w-[80vw] sm:flex-row sm:gap-[10vw] lg:max-w-[64vw]">
         <Fade
           as="h2"
           trigger={{ trigger: "#last-section", start: "60% bottom" }}
-          className="max-w-[24vw] flex-shrink-0 font-roseford text-[4vw] uppercase leading-[4.375vw]"
+          className="flex-shrink-0 font-roseford text-[7.6vw] uppercase leading-[1.1] sm:w-[24vw] sm:text-[5vw] lg:text-[4vw]"
         >
           BD24 IN YOUR HOOD?
         </Fade>
@@ -20,12 +20,12 @@ const LastSection = () => {
         <Fade
           trigger={{ trigger: "#last-section", start: "60% bottom" }}
           gsapTo={{ delay: 0.175 }}
-          className="max-w-[24vw] space-y-[1vw] pt-[0.675vw]"
+          className="space-y-[3vw] pt-[0.675vw] sm:max-w-[40vw] sm:space-y-[1.5vw] lg:max-w-[24vw] lg:space-y-[1vw]"
         >
-          <p className="text-[1.125vw] leading-[1.125vw]">
+          <p className="text-[4.15vw] leading-[1.2] sm:text-[2.2vw] lg:text-[1.125vw]">
             THE SMELL OF FRESHLY BREWED EXCITEMENT IS IN THE AIR
           </p>
-          <p className="font-eczar text-[1vw] leading-[1.75vw]">
+          <p className="font-eczar text-[3.45vw] leading-[1.75] sm:text-[1.852vw] lg:text-[1vw]">
             Are you interested in selling our classic craft beers at your
             location? Contact us for more information about our beers, prices
             and possible collaborations. Together we will let your customers
@@ -36,7 +36,7 @@ const LastSection = () => {
 
       <LocationsMarquee />
 
-      <div className="flex w-full max-w-[64vw] flex-col gap-[0.65vw]">
+      <div className="flex w-full max-w-[87vw] flex-col gap-[0.65vw] sm:max-w-[80vw] lg:max-w-[64vw]">
         <HorizontalScale
           trigger={{ trigger: "#last-section", start: "60% bottom" }}
           gsapTo={{ delay: 0.525 }}

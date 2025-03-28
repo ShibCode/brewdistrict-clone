@@ -56,8 +56,10 @@ const ImageSequence = () => {
   const handleResize = () => {
     if (!canvasRef.current) return;
 
-    canvasRef.current.width = window.innerWidth;
-    canvasRef.current.height = window.innerHeight;
+    const { width, height } = getComputedStyle(canvasRef.current);
+
+    canvasRef.current.width = parseInt(width);
+    canvasRef.current.height = parseInt(height);
 
     if (images.current.length) renderActiveImage();
   };
@@ -79,7 +81,7 @@ const ImageSequence = () => {
       const scrollTrigger: ScrollTrigger.Vars = {
         trigger: canvasRef.current,
         start: "top bottom",
-        end: "bottom bottom",
+        end: "top top",
         scrub: true,
         onUpdate: ({ progress }) => {
           activeImage.current = Math.round(progress * (imagesSrc.length - 1));
@@ -100,7 +102,10 @@ const ImageSequence = () => {
   );
 
   return (
-    <canvas ref={canvasRef} className="relative h-screen w-full bg-secondary" />
+    <canvas
+      ref={canvasRef}
+      className="relative h-[90vw] w-full bg-secondary lg:h-screen"
+    />
   );
 };
 

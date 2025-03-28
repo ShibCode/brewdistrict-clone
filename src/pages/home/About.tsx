@@ -21,16 +21,21 @@ const About = () => {
 
       gsap.to(elems, {
         y: (i) => {
+          let k = 1;
+          if (window.innerWidth < 1024) k = 1.4;
+
           return (
-            (elems.length - i - elems.length / 2) * (window.innerWidth / -14)
+            (elems.length - i - elems.length / 2 + 1) *
+            ((window.innerWidth * k) / -18)
           );
         },
         ease: "none",
         scrollTrigger: {
-          trigger: wrapper.current,
+          trigger: "#about-heading",
+          endTrigger: wrapper.current,
           start: "top bottom",
           end: "bottom center",
-          scrub: true,
+          scrub: 1,
         },
       });
     },
@@ -41,11 +46,12 @@ const About = () => {
     <section
       ref={wrapper}
       id="about-section"
-      className="flex flex-col items-center gap-[0.25vw] pb-[15vw] pt-[19vw] text-secondary"
+      className="flex flex-col items-center gap-[3vw] pb-[35vw] pt-[46vw] text-secondary sm:gap-[1.5vw] sm:pb-[24vw] sm:pt-[28vw] lg:gap-[0.25vw] lg:pb-[15vw] lg:pt-[19vw]"
     >
       <LineStaggerRoot
+        id="about-heading"
         as="h2"
-        className="content-parallax-element text-[1.125vw] leading-[1.125vw]"
+        className="content-parallax-element text-[4.1vw] leading-none sm:text-[2.22vw] lg:text-[1.125vw]"
       >
         <LineStaggerLine>ABOUT BREWDISTRICT24</LineStaggerLine>
       </LineStaggerRoot>
@@ -53,33 +59,33 @@ const About = () => {
       <Fade
         wrapperId="about-big-p"
         as="p"
-        wrapperClassName="content-parallax-element max-w-[23em] text-center font-roseford text-[4vw] uppercase leading-[4.375vw]"
+        wrapperClassName="content-parallax-element max-w-[15em] lg:max-w-[23em] text-center font-roseford text-[7.5vw] sm:text-[5vw] lg:text-[4vw] uppercase leading-[1.1]"
       >
-        Welcome to the neighborhood. This
+        Welcome to the neighborhood. <br className="lg:hidden" /> This{" "}
         <Fade
           as="span"
           trigger={{ trigger: "#about-big-p" }}
           gsapFrom={{ y: 50 }}
           gsapTo={{ delay: 0.25 }}
-          className="box-content inline-block max-w-[13em] px-[2.5em] font-sans text-[0.875vw] leading-[0.875vw]"
+          className="box-content hidden max-w-[13em] px-[0.5em] font-sans text-[0.875vw] leading-[0.875vw] lg:inline-block"
         >
           A haven for like-hearted people, where we drink, laugh and have good
           conversations
-        </Fade>
-        is where we come together
+        </Fade>{" "}
+        is where we come together{" "}
         <Fade
           as="span"
           trigger={{ trigger: "#about-big-p" }}
           gsapFrom={{ y: 50 }}
           gsapTo={{ delay: 0.45 }}
-          className="box-content inline-block max-w-[4.7em] px-[2.5em] font-sans text-[0.875vw] leading-[0.875vw]"
+          className="box-content hidden max-w-[4.7em] px-[0.5em] font-sans text-[0.875vw] leading-[0.875vw] lg:inline-block"
         >
           Enjoy every given moment
-        </Fade>
+        </Fade>{" "}
         as one.
       </Fade>
 
-      <div className="content-parallax-element flex w-full max-w-[64vw] gap-[1vw] font-eczar text-[1vw] leading-[1.75vw]">
+      <div className="content-parallax-element flex w-full max-w-[88vw] flex-col gap-[3vw] font-eczar text-[3.48vw] leading-[1.75] sm:max-w-[80vw] sm:flex-row sm:text-[1.85vw] lg:max-w-[64vw] lg:gap-[1vw] lg:text-[1vw]">
         <Fade as="p" wrapperClassName="w-full">
           In good company, we immerse ourselves in ‘gezelligheid’. Together we
           laugh, drink beer and open ourselves up to new surprising experiences.
@@ -94,7 +100,7 @@ const About = () => {
         </Fade>
       </div>
 
-      <div className="content-parallax-element flex w-full max-w-[64vw] flex-col gap-[0.65vw]">
+      <div className="content-parallax-element flex w-full max-w-[88vw] flex-col gap-[0.65vw] sm:max-w-[80vw] lg:max-w-[64vw]">
         <HorizontalScale
           trigger={{ start: "bottom 75%" }}
           className="h-px w-full bg-current"

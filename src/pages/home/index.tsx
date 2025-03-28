@@ -51,31 +51,35 @@ const Home = () => {
         },
       });
 
-      setTimeout(() => {
-        gsap.to("#block1", {
-          y: () => `${window.innerHeight * 0.4}`,
-          ease: "none",
-          scrollTrigger: {
-            trigger: "#block1",
-            start: "bottom bottom",
-            end: () => `+=${window.innerHeight}`,
-            scrub: true,
-          },
-        });
-        gsap.to("#block2", {
-          y: () => `${window.innerHeight * 0.4}`,
-          ease: "none",
-          scrollTrigger: {
-            trigger: "#block2",
-            start: "bottom bottom",
-            end: () => `+=${window.innerHeight}`,
-            scrub: true,
-          },
-        });
-      }, 1000);
+      gsap.to("#block1", {
+        y: () => `${window.innerWidth * 0.225}`,
+        ease: "none",
+        scrollTrigger: {
+          trigger: "#block1",
+          start: "bottom bottom",
+          end: () => `+=${window.innerHeight}`,
+          scrub: 1,
+        },
+      });
+      gsap.to("#block2", {
+        y: () => {
+          let k = 1;
+          if (window.innerWidth < 640) k = 3;
+          else if (window.innerWidth < 1024) k = 2;
+
+          return window.innerWidth * 0.225 * k;
+        },
+        ease: "none",
+        scrollTrigger: {
+          trigger: "#block2",
+          start: "bottom bottom",
+          end: () => `+=${window.innerHeight}`,
+          scrub: 1,
+        },
+      });
 
       new ScrollTrigger({
-        trigger: "#hero-section",
+        trigger: canvas1Wrapper.current,
         start: "top top",
         endTrigger: "#beers-section-content",
         end: "50% center",
@@ -95,7 +99,7 @@ const Home = () => {
 
           <div
             ref={canvas1Wrapper}
-            className="pointer-events-none absolute z-10 h-screen w-full"
+            className="pointer-events-none absolute z-10 mt-[22.5vw] h-screen w-full lg:mt-0"
           >
             <div ref={canvas1} className="relative size-full">
               <Model />

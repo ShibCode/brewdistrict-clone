@@ -50,23 +50,23 @@ const StickyFooter = () => {
   return (
     <div
       ref={wrapper}
-      className="fixed bottom-0 z-30 flex w-full justify-between px-[1.7vw] pb-[1.5vw]"
+      className="fixed bottom-0 z-30 flex w-full justify-between px-[4vw] pb-[5vw] sm:px-[2.6vw] sm:pb-[3vw] lg:px-[1.7vw] lg:pb-[1.5vw]"
     >
       <div className="flex gap-[1.25vw]">
         <div className="bolt">
-          <Bolt className="w-[6.25vw] text-model transition-colors duration-300" />
+          <Bolt className="w-[18vw] text-model transition-colors duration-300 sm:w-[14.8vw] lg:w-[6.25vw]" />
         </div>
-        <span className="text-[0.875vw] leading-[0.875vw]">
+        <span className="hidden text-[0.875vw] leading-[0.875vw] lg:inline">
           ENJOY <br /> THE MOMENT
         </span>
       </div>
 
       <div className="flex gap-[1.25vw]">
-        <span className="text-end text-[0.875vw] leading-[0.875vw]">
+        <span className="hidden text-end text-[0.875vw] leading-[0.875vw] lg:inline">
           NOT 18 <br /> NO ALCOHOL
         </span>
         <div className="bolt">
-          <Bolt className="w-[6.25vw] -scale-x-100 text-model transition-colors duration-300" />
+          <Bolt className="w-[18vw] -scale-x-100 text-model transition-colors duration-300 sm:w-[14.8vw] lg:w-[6.25vw]" />
         </div>
       </div>
     </div>

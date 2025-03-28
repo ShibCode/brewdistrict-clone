@@ -67,6 +67,7 @@ export function Model(props: JSX.IntrinsicElements["group"]) {
 
   const initialPosition = useRef({ x: 0, y: 1, z: 0 });
 
+  const phase1Scale = useRef(1);
   const phase1Rotation = useRef({ x: 0, y: 0, z: 0 });
   const transitionRotation = useRef({ x: 0, y: 0, z: 0 });
   const phase2Rotation = useRef({ x: 0, y: 0, z: 0 });
@@ -140,7 +141,7 @@ export function Model(props: JSX.IntrinsicElements["group"]) {
       gsap
         .timeline({ defaults: { ease: "none" }, scrollTrigger: phase1Trigger })
         .to(phase1Rotation.current, { x: Math.PI * 2, y: Math.PI * 2 })
-        .to(group.current.scale, { x: 0.155, y: 0.155, z: 0.155 }, 0);
+        .to(phase1Scale, { current: 0.855 }, 0);
 
       // transition rotation (from phase 1 to phase 2)
       new ScrollTrigger({
@@ -213,6 +214,14 @@ export function Model(props: JSX.IntrinsicElements["group"]) {
 
   useFrame(({ clock }) => {
     if (!group.current) return;
+
+    if (window.innerWidth < 640) {
+      group.current.scale.setScalar(0.45 * phase1Scale.current);
+    } else if (window.innerWidth < 1024) {
+      group.current.scale.setScalar(0.4 * phase1Scale.current);
+    } else {
+      group.current.scale.setScalar(0.175 * phase1Scale.current);
+    }
 
     const time = clock.getElapsedTime();
     const rotationTime = Math.max(time - 4, 0);

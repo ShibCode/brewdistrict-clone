@@ -136,17 +136,16 @@ const Header = () => {
         <button
           style={{
             fontSize: "calc(1 * var(--k))",
-            gap: "calc(0.66 * var(--k))",
+            gap: "calc(0.8 * var(--k))",
           }}
           className="font-freudian flex items-center transition-all duration-300 hover:opacity-60"
         >
           <span className="hidden xs:inline">MENU</span>
 
           <svg
-            style={{ width: "calc(1.6 * var(--k))" }}
-            height="24"
+            style={{ width: "calc(1.8 * var(--k))" }}
             viewBox="0 0 30 24"
-            fill="none"
+            fill="white"
             xmlns="http://www.w3.org/2000/svg"
           >
             <rect width="30" height="2" />

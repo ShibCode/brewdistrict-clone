@@ -94,7 +94,7 @@ const LocationsMarquee = () => {
     >
       <div ref={marquee} className="relative flex w-max select-none gap-[5vw]">
         <Strip />
-        <Strip className="absolute left-full" aria-hidden />
+        <Strip className="absolute left-full" />
       </div>
     </Fade>
   );
@@ -109,7 +109,10 @@ const Strip = ({
   const isClickValid = useRef(false);
 
   return (
-    <div className={`flex gap-[5vw] pl-[5vw] ${className}`} {...props}>
+    <div
+      className={`flex gap-[10vw] pl-[5vw] sm:gap-[5vw] ${className}`}
+      {...props}
+    >
       {locations.map((location, i) => (
         <a
           href="#"
@@ -122,16 +125,14 @@ const Strip = ({
           onPointerMove={() => (isClickValid.current = false)}
           onPointerDown={() => (isClickValid.current = true)}
           key={i}
-          className="flex shrink-0 flex-col gap-[0.4vw] transition-all duration-300 hover:opacity-60"
+          className="flex shrink-0 flex-col gap-[1vw] transition-all duration-300 hover:opacity-60 sm:gap-[0.4vw]"
         >
-          <span className="font-roseford text-[2.6875vw] uppercase leading-[3.125vw]">
+          <span className="font-roseford text-[6vw] uppercase leading-[1.2] sm:text-[4vw] lg:text-[2.6875vw]">
             {location.name}
           </span>
-          <div className="flex gap-[0.6vw]">
-            <location.icon className="w-[1.35vw] opacity-40" />
-            <span className="text-[0.875vw] uppercase leading-[0.875vw]">
-              {location.location}
-            </span>
+          <div className="flex gap-[0.5em] text-[3.45vw] sm:text-[1.85vw] lg:gap-[0.6vw] lg:text-[0.875vw]">
+            <location.icon className="w-[1.2em] opacity-40" />
+            <span className="uppercase leading-none">{location.location}</span>
           </div>
         </a>
       ))}

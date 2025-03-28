@@ -18,9 +18,21 @@ const Newsletter = () => {
     () => {
       gsap.fromTo(
         content.current,
-        { y: "10vw" },
         {
-          y: "-10vw",
+          y: () => {
+            let k = 1;
+            if (window.innerWidth < 1024) k = 1.5;
+
+            return 0.1 * window.innerWidth * k;
+          },
+        },
+        {
+          y: () => {
+            let k = 1;
+            if (window.innerWidth < 1024) k = 1.5;
+
+            return -0.1 * window.innerWidth * k;
+          },
           ease: "none",
           scrollTrigger: {
             trigger: wrapper.current,
@@ -38,31 +50,34 @@ const Newsletter = () => {
     <section
       ref={wrapper}
       id="newsletter-section"
-      className="mx-auto flex max-w-[64vw] justify-center pb-[13vw] pt-[16vw]"
+      className="mx-auto flex max-w-[92vw] justify-center pb-[30vw] pt-[30vw] sm:pb-[20vw] sm:pt-[20vw] lg:max-w-[64vw] lg:pb-[13vw] lg:pt-[16vw]"
     >
-      <div ref={content} className="flex w-full">
-        <Fade wrapperClassName="w-1/2 pr-[4.5vw]">
-          <h2 className="max-w-[7em] font-roseford text-[4vw] uppercase leading-[4.375vw]">
-            Become part
-            <span className="box-content inline-block max-w-[3em] -translate-y-[0.8em] px-[2.25em] text-center font-sans text-[0.875vw] leading-[0.875vw]">
+      <div
+        ref={content}
+        className="flex w-full flex-col gap-[5vw] sm:flex-row lg:gap-0"
+      >
+        <Fade wrapperClassName="w-full sm:w-1/2 lg:pr-[4.5vw]">
+          <h2 className="font-roseford text-[7.5vw] uppercase leading-[1.1] sm:text-[5vw] lg:max-w-[7em] lg:text-[4vw]">
+            Become part{" "}
+            <span className="box-content hidden max-w-[3em] -translate-y-[0.8em] text-center font-sans text-[0.21em] leading-none lg:inline-block">
               Be the first
-            </span>
+            </span>{" "}
             of our hood
           </h2>
         </Fade>
 
         <Fade
           gsapTo={{ delay: 0.15 }}
-          wrapperClassName="w-1/2 pt-[1vw]"
-          className="flex flex-col gap-[1.25vw]"
+          wrapperClassName="w-full sm:w-1/2 pt-[1vw]"
+          className="flex flex-col gap-[2.5vw] sm:gap-[1.25vw]"
         >
-          <p className="max-w-[26vw] font-eczar text-[1vw] leading-[1.75vw]">
+          <p className="font-eczar text-[3.4vw] leading-[1.75] sm:max-w-[33vw] sm:text-[1.85vw] lg:max-w-[26vw] lg:text-[1vw]">
             Only the absolute pioneers who sign up for our newsletter get a
             front row seat, because at BrewDistrict24 we cherish those who
             embrace this adventure with us from the very beginning.
           </p>
 
-          <div className="space-y-[1.25vw]">
+          <div className="space-y-[4vw] sm:space-y-[1.25vw]">
             <form
               onSubmit={handleSubmit}
               className="flex items-end gap-[2.5vw]"
@@ -70,14 +85,14 @@ const Newsletter = () => {
               <input
                 type="text"
                 placeholder="Your email address"
-                className="h-[2.5vw] w-full max-w-[26vw] border-b border-current bg-transparent font-eczar text-[0.875vw] text-primary outline-none transition-colors duration-300 placeholder:text-primary placeholder:opacity-40 placeholder-shown:text-[#CB4242]"
+                className="w-full border-b border-current bg-transparent py-[0.3em] font-eczar text-[3vw] text-primary outline-none transition-colors duration-300 placeholder:text-primary placeholder:opacity-40 placeholder-shown:text-[#CB4242] sm:py-[0.7em] sm:text-[1.4vw] lg:max-w-[26vw] lg:text-[0.875vw]"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
               />
 
               <button
                 aria-label="Join our newsletter"
-                className="group relative flex size-[2.75vw] shrink-0 items-center justify-center overflow-hidden rounded-full text-[1.6vw] text-secondary transition-colors duration-300"
+                className="group relative flex size-[1.7em] shrink-0 items-center justify-center overflow-hidden rounded-full text-[5vw] text-secondary transition-colors duration-300 sm:text-[3vw] lg:text-[1.6vw]"
               >
                 <div className="absolute inset-0 -z-10 bg-model transition-all duration-300 group-hover:opacity-70" />
 
@@ -96,7 +111,7 @@ const Newsletter = () => {
               </button>
             </form>
 
-            <p className="max-w-[26vw] pr-1 font-eczar text-[0.75vw] leading-[1.25vw]">
+            <p className="pr-1 font-eczar text-[2.5vw] leading-[1.66] sm:max-w-[26vw] sm:text-[1.2vw] lg:text-[0.75vw]">
               This site is protected by reCAPTCHA and the Google{" "}
               <a href="#" className="underline">
                 Privacy Policy

@@ -14,6 +14,8 @@ import usePrevious from "../../hooks/usePrevious";
 import useStageEffect from "../../hooks/useStageEffect";
 
 const Beers = () => {
+  const { previousModel, nextModel } = useModel();
+
   useGSAP(
     () => {
       const scrollTrigger = {
@@ -40,11 +42,32 @@ const Beers = () => {
   return (
     <section
       id="beers-section"
-      className="flex flex-col items-center gap-[1.5vw] pt-[15vw]"
+      className="flex flex-col items-center pt-[15vw]"
     >
+      <Fade
+        className="relative z-10 lg:hidden"
+        trigger={{ start: "center 25%" }}
+      >
+        <SlideTransition
+          inFrom={(dir) => ({ x: 30 * dir, opacity: 0 })}
+          inTo={() => ({ x: 0, opacity: 1, duration: 0.25, delay: 0.63 })}
+          outFrom={() => ({ x: 0, opacity: 1 })}
+          outTo={(dir) => ({ x: -30 * dir, opacity: 0, duration: 0.25 })}
+          className="flex h-[18.72vw] w-[75vw] items-center overflow-visible"
+        >
+          {({ activeModel }) => (
+            <div className="text-center font-roseford text-[10.4vw] uppercase leading-[0.9] text-secondary">
+              <div className="translate-y-[0.5em]">
+                {modelDetails[activeModel].name}
+              </div>
+            </div>
+          )}
+        </SlideTransition>
+      </Fade>
+
       <div id="beers-section-content" className="flex flex-col items-center">
-        <div className="flex gap-[6vw]">
-          <div className="flex w-full flex-col items-end justify-between gap-[3vw] pb-[2vw] pt-[1vw] text-end">
+        <div className="flex items-center gap-[3vw] sm:gap-[6vw] lg:items-stretch">
+          <div className="hidden w-full flex-col items-end justify-between gap-[3vw] pb-[2vw] pt-[1vw] text-end lg:flex">
             <Fade className="flex w-[25vw] flex-col gap-[1vw] uppercase">
               <SlideTransition
                 inFrom={(dir) => ({ x: 30 * dir, opacity: 0 })}
@@ -92,11 +115,18 @@ const Beers = () => {
             </Fade>
           </div>
 
+          <button
+            onClick={previousModel}
+            className="rounded-full border border-primary p-[1.5em] text-[3.5vw] lg:hidden"
+          >
+            <FaArrowLeft />
+          </button>
+
           <Fade
             wrapperId="beer-container"
             direction="down"
             trigger={{ trigger: "#beers-section", start: "top bottom" }}
-            className="relative h-[33vw] w-[20vw] shrink-0"
+            className="relative h-[90.75vw] w-[55vw] shrink-0 sm:h-[82.5vw] sm:w-[50vw] lg:h-[33vw] lg:w-[20vw]"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -139,7 +169,14 @@ const Beers = () => {
             </svg>
           </Fade>
 
-          <div className="flex w-full flex-col justify-between pb-[2vw] pt-[1vw]">
+          <button
+            onClick={nextModel}
+            className="rounded-full border border-primary p-[1.5em] text-[3.5vw] lg:hidden"
+          >
+            <FaArrowRight />
+          </button>
+
+          <div className="hidden w-full flex-col justify-between pb-[2vw] pt-[1vw] lg:flex">
             <Fade>
               <SlideTransition
                 inFrom={(dir) => ({ x: 30 * dir, opacity: 0 })}
@@ -204,6 +241,24 @@ const Beers = () => {
           </div>
         </div>
       </div>
+
+      <Fade className="lg:hidden">
+        <SlideTransition
+          inFrom={(dir) => ({ x: 30 * dir, opacity: 0 })}
+          inTo={() => ({ x: 0, opacity: 1, duration: 0.25, delay: 0.63 })}
+          outFrom={() => ({ x: 0, opacity: 1 })}
+          outTo={(dir) => ({ x: -30 * dir, opacity: 0, duration: 0.25 })}
+          className="overflow-visible"
+        >
+          {() => (
+            <div>
+              <button className="font-freudian -translate-y-[calc(50%+4vw)] rounded-full bg-model px-[3em] py-[0.8em] text-[3vw] text-black transition-all duration-300 hover:bg-white sm:-translate-y-[calc(50%+3.5vw)] sm:text-[1.7vw] lg:text-[0.859vw]">
+                ORDER NOW
+              </button>
+            </div>
+          )}
+        </SlideTransition>
+      </Fade>
 
       <ModelSlider />
     </section>
@@ -356,7 +411,7 @@ const ModelSlider = () => {
   const activeIndex = models.indexOf(activeModel);
 
   return (
-    <div className="flex flex-col items-center gap-[0.3vw]">
+    <div className="hidden flex-col items-center gap-[0.3vw] lg:flex">
       <p>
         {activeIndex + 1}/{models.length}
       </p>
